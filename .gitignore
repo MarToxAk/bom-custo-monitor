@@ -1,0 +1,12 @@
+dist/
+build/
+__pycache__/
+*.pyc
+*.pyo
+*.spec
+.env/
+*.db
+*.sqlite3
+*.log
+*.bak
+*.tmp
