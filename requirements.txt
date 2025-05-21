@@ -1,0 +1,6 @@
+paho-mqtt
+psycopg2
+pystray
+pillow
+pywin32
+winshell
