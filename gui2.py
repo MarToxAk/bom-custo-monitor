@@ -10,6 +10,9 @@ import os
 import sys
 import urllib.request
 import ssl
+import requests
+import jwt
+import time
 from db_utils import buscar_dados_postgres
 from ui_utils import ToolTip, formatar_tempo, parar_som, abrir_link
 from mqtt_utils import on_connect, on_message_factory, iniciar_mqtt
@@ -55,7 +58,17 @@ def chave_ordenacao(pedido):
         prioridade = 7
     else:
         prioridade = 8
-    datahora = datetime.strptime(pedido['datahora'], "%Y-%m-%d %H:%M")
+    # Corrige o parse da data para aceitar o formato ISO 8601
+    datahora_str = pedido['datahora']
+    try:
+        # Remove o 'Z' e os milissegundos se existirem
+        if datahora_str.endswith('Z'):
+            datahora_str = datahora_str[:-1]
+        if '.' in datahora_str:
+            datahora_str = datahora_str.split('.')[0]
+        datahora = datetime.strptime(datahora_str, "%Y-%m-%dT%H:%M:%S")
+    except Exception:
+        datahora = datetime.now()
     return (prioridade, -datahora.timestamp())
 
 def salvar_config():
@@ -101,6 +114,7 @@ def atualizar_lista_e_botoes():
     ultimo_status = None
     status_labels = {}
     novo_btn_idx = None
+    tem_novo = False
     for idx, pedido in enumerate(dados_ficticios):
         status_idx = pedido["status"] - 1
         cor = status_cores[status_idx]
@@ -132,7 +146,17 @@ def atualizar_lista_e_botoes():
                 if (x - 10) ** 2 + (y - 10) ** 2 <= 100:
                     img.put(cor, (x, y))
         color_images.append(img)
-        datahora_pedido = datetime.strptime(pedido['datahora'], "%Y-%m-%d %H:%M")
+        datahora_pedido = pedido['datahora']
+        # Corrige o parse da data para aceitar o formato ISO 8601
+        try:
+            # Remove o 'Z' e os milissegundos se existirem
+            if datahora_pedido.endswith('Z'):
+                datahora_pedido = datahora_pedido[:-1]
+            if '.' in datahora_pedido:
+                datahora_pedido = datahora_pedido.split('.')[0]
+            datahora_pedido = datetime.strptime(datahora_pedido, "%Y-%m-%dT%H:%M:%S")
+        except Exception:
+            datahora_pedido = datetime.now()
         diff = datetime.now() - datahora_pedido
         primeiro_nome = pedido['nome'].split()[0]
         texto = f"{pedido['numero']} - {primeiro_nome} - {formatar_tempo(diff)}"
@@ -163,6 +187,13 @@ def atualizar_lista_e_botoes():
         buttons.append(button)
         if pedido.get("novo_mqtt"):
             novo_btn_idx = idx
+            tem_novo = True
+    # Notificação persistente: se houver novo pedido, inicia loop de som
+    if tem_novo:
+        if not notificacao_ativa:
+            tocar_som_persistente()
+    else:
+        parar_som()
     return novo_btn_idx
 
 # Cores e descrições
@@ -253,6 +284,32 @@ style.map(
 # Variável global para controle do som
 tocar_som = True
 som_personalizado = None
+
+# --- Notificação persistente ---
+notificacao_ativa = False
+notificacao_after_id = None
+
+def tocar_som_persistente():
+    global notificacao_ativa, notificacao_after_id
+    if not tocar_som:
+        return
+    notificacao_ativa = True
+    if som_personalizado:
+        winsound.PlaySound(som_personalizado, winsound.SND_FILENAME | winsound.SND_ASYNC)
+    else:
+        winsound.PlaySound("SystemExclamation", winsound.SND_ALIAS | winsound.SND_ASYNC)
+    # Agenda o próximo toque se ainda não foi parado
+    if notificacao_ativa:
+        notificacao_after_id = window.after(2000, tocar_som_persistente)  # repete a cada 2s
+
+def parar_som(btn=None):
+    global notificacao_ativa, notificacao_after_id
+    notificacao_ativa = False
+    winsound.PlaySound(None, winsound.SND_PURGE)
+    if notificacao_after_id:
+        window.after_cancel(notificacao_after_id)
+        notificacao_after_id = None
+    # Se for passado um botão, pode mudar o estilo ou fazer highlight, se desejar
 
 def toggle_som():
     global tocar_som
@@ -396,7 +453,47 @@ canvas.bind_all("<MouseWheel>", _on_mousewheel)
 carregando_label = tk.Label(window, text="Carregando...", bg="#2C2C2C", fg="#FFFFFF", font=("Inter", 12, "italic"))
 carregando_label.pack(pady=20)
 window.update()
+
+def buscar_dados_postgres():
+    SECRET = "9E32FBF5414937A46F1D29E1C8DC7"
+    payload = {
+        "iat": int(time.time()),
+        "exp": int(time.time()) + 60
+    }
+    JWT_TOKEN = jwt.encode(payload, SECRET, algorithm="HS256")
+    url = "https://n8n.autopyweb.com.br/webhook/41ce2ba0-9fc3-4ebb-852b-7c8714048bdf"
+    headers = {
+        "Authorization": f"Bearer {JWT_TOKEN}"
+    }
+    try:
+        response = requests.get(url, headers=headers, timeout=10)
+        response.raise_for_status()
+        try:
+            dados = response.json()
+            if isinstance(dados, dict) and "token" in dados:
+                decoded = jwt.decode(dados["token"], SECRET, algorithms=["HS256"])
+                return decoded.get("dados", [])
+            if isinstance(dados, dict) and "dados" in dados:
+                return dados["dados"]
+            return dados
+        except Exception:
+            token = response.text.strip('"')
+            decoded = jwt.decode(token, SECRET, algorithms=["HS256"])
+            return decoded.get("dados", [])
+    except Exception as e:
+        import traceback
+        print(f"Erro ao buscar dados via API: {e}")
+        traceback.print_exc()
+        return []
+
 dados_ficticios = buscar_dados_postgres()
+if isinstance(dados_ficticios, dict):
+    # Se ainda vier dict, tenta extrair a lista da chave correta
+    if "dados" in dados_ficticios:
+        dados_ficticios = dados_ficticios["dados"]
+    else:
+        # Se não houver chave 'dados', transforma em lista vazia para evitar erro
+        dados_ficticios = []
 carregando_label.destroy()
 buttons = []
 color_images = []
@@ -405,11 +502,9 @@ atualizar_lista_e_botoes()
 
 # Ajuste na chamada do winsound para respeitar o toggle
 def tocar_som_notificacao():
-    if tocar_som:
-        if som_personalizado:
-            winsound.PlaySound(som_personalizado, winsound.SND_FILENAME | winsound.SND_ASYNC)
-        else:
-            winsound.PlaySound("SystemExclamation", winsound.SND_ALIAS | winsound.SND_ASYNC)
+    # Compatibilidade: dispara notificação persistente
+    if not notificacao_ativa:
+        tocar_som_persistente()
 
 # Inicialização do MQTT
 mqtt_client = iniciar_mqtt(
@@ -425,7 +520,16 @@ def atualizar_tempos():
     for i, pedido in enumerate(dados_ficticios):
         if i >= len(buttons):
             break  # Evita IndexError se buttons for menor
-        datahora_pedido = datetime.strptime(pedido['datahora'], "%Y-%m-%d %H:%M")
+        datahora_pedido = pedido['datahora']
+        # Corrige o parse da data para aceitar o formato ISO 8601
+        try:
+            if datahora_pedido.endswith('Z'):
+                datahora_pedido = datahora_pedido[:-1]
+            if '.' in datahora_pedido:
+                datahora_pedido = datahora_pedido.split('.')[0]
+            datahora_pedido = datetime.strptime(datahora_pedido, "%Y-%m-%dT%H:%M:%S")
+        except Exception:
+            datahora_pedido = datetime.now()
         diff = agora - datahora_pedido
         primeiro_nome = pedido['nome'].split()[0]
         texto = f"{pedido['numero']} - {primeiro_nome} - {formatar_tempo(diff)}"
