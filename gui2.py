@@ -128,7 +128,21 @@ def atualizar_lista_e_botoes():
         status_labels = {}
         novo_btn_idx = None
         tem_novo = False
+        agora = datetime.now()
         for idx, pedido in enumerate(dados_ficticios):
+            # Filtrar status 8 para exibir apenas até 24h
+            if pedido["status"] == 8:
+                datahora_pedido = pedido['datahora']
+                try:
+                    if datahora_pedido.endswith('Z'):
+                        datahora_pedido = datahora_pedido[:-1]
+                    if '.' in datahora_pedido:
+                        datahora_pedido = datahora_pedido.split('.')[0]
+                    datahora_pedido_dt = datetime.strptime(datahora_pedido, "%Y-%m-%dT%H:%M:%S")
+                except Exception:
+                    datahora_pedido_dt = agora
+                if (agora - datahora_pedido_dt).total_seconds() > 86400:
+                    continue  # pula pedidos entregues com mais de 24h
             status_idx = pedido["status"] - 1
             cor = status_cores[status_idx]
             # Adiciona separador/título de grupo se mudou o status
@@ -162,7 +176,6 @@ def atualizar_lista_e_botoes():
             datahora_pedido = pedido['datahora']
             # Corrige o parse da data para aceitar o formato ISO 8601
             try:
-                # Remove o 'Z' e os milissegundos se existirem
                 if datahora_pedido.endswith('Z'):
                     datahora_pedido = datahora_pedido[:-1]
                 if '.' in datahora_pedido:
