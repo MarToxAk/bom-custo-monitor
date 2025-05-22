@@ -19,7 +19,7 @@ from mqtt_utils import on_connect, on_message_factory, iniciar_mqtt
 from config import MQTT_HOST, MQTT_PORT  # (crie config.py se desejar centralizar variáveis)
 from tray_utils import minimizar_para_bandeja
 
-APP_VERSION = "1.0.2"
+APP_VERSION = "1.0.3"
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"\\bot\Programa\Status\build\assets\frame0")
