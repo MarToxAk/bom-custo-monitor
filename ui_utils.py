@@ -37,7 +37,11 @@ def formatar_tempo(diff):
     else:
         return f"{horas:02d}:{minutos:02d}"
 
-def parar_som(event=None, btn=None):
+def parar_som(btn=None, event=None):
+    """
+    Para o som de notificação. Se um botão for passado, pode alterar o estilo.
+    A ordem dos parâmetros foi ajustada para compatibilidade com gui2.py.
+    """
     winsound.PlaySound(None, winsound.SND_PURGE)
     if btn:
         btn.config(style="Alerta.TButton")
