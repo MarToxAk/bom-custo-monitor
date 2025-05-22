@@ -104,97 +104,131 @@ def carregar_config():
         atualizar_lista_e_botoes()
 
 def atualizar_lista_e_botoes():
-    # Remove todos os widgets do frame (botões e labels de separação)
-    for widget in scrollable_frame.winfo_children():
-        widget.destroy()
-    buttons.clear()
-    color_images.clear()
-    # Agrupamento visual por status
-    dados_ficticios.sort(key=chave_ordenacao)
-    ultimo_status = None
-    status_labels = {}
-    novo_btn_idx = None
-    tem_novo = False
-    for idx, pedido in enumerate(dados_ficticios):
-        status_idx = pedido["status"] - 1
-        cor = status_cores[status_idx]
-        # Adiciona separador/título de grupo se mudou o status
-        if pedido["status"] != ultimo_status:
-            if pedido["status"] not in status_labels:
-                # Ajuste de cor do fundo do label conforme tema
-                if modo_escuro:
-                    bg_label = "#232323"
-                    fg_label = cor
-                else:
-                    bg_label = "#E9E9E9"
-                    fg_label = cor
-                label = tk.Label(
-                    scrollable_frame,
-                    text=status_descricoes[cor],
-                    bg=bg_label,
-                    fg=fg_label,
-                    font=("Inter SemiBold", 11, "bold"),
-                    anchor="w",
-                    padx=8
-                )
-                label.pack(fill="x", pady=(10, 2), padx=4)
-                status_labels[pedido["status"]] = label
-            ultimo_status = pedido["status"]
-        img = PhotoImage(width=20, height=20)
-        for x in range(20):
-            for y in range(20):
-                if (x - 10) ** 2 + (y - 10) ** 2 <= 100:
-                    img.put(cor, (x, y))
-        color_images.append(img)
-        datahora_pedido = pedido['datahora']
-        # Corrige o parse da data para aceitar o formato ISO 8601
-        try:
-            # Remove o 'Z' e os milissegundos se existirem
-            if datahora_pedido.endswith('Z'):
-                datahora_pedido = datahora_pedido[:-1]
-            if '.' in datahora_pedido:
-                datahora_pedido = datahora_pedido.split('.')[0]
-            datahora_pedido = datetime.strptime(datahora_pedido, "%Y-%m-%dT%H:%M:%S")
-        except Exception:
-            datahora_pedido = datetime.now()
-        diff = datetime.now() - datahora_pedido
-        primeiro_nome = pedido['nome'].split()[0]
-        texto = f"{pedido['numero']} - {primeiro_nome} - {formatar_tempo(diff)}"
-        style_btn = "Novo.TButton" if pedido.get("novo_mqtt") else "Rounded.TButton"
-        click_count = {'count': 0}  # contador de cliques por botão
-        def on_pedido_click(p=pedido, btn_idx=idx):
-            click_count['count'] += 1
-            if click_count['count'] == 1:
-                parar_som()  # não passa btn, assim não muda o estilo
+    """
+    Atualiza a lista de pedidos na interface e os botões de ação.
+    Exibe mensagens de erro se necessário.
+    """
+    global dados_ficticios
+    try:
+        if isinstance(dados_ficticios, dict):
+            if "dados" in dados_ficticios:
+                dados_ficticios = dados_ficticios["dados"]
             else:
-                parar_som()
-                webbrowser.open(
-                    f"https://chat.autopyweb.com.br/app/accounts/{p['account_id']}/conversations/{p['chatid']}",
-                    new=0
-                )
-                click_count['count'] = 0  # reseta para permitir novo ciclo
-        button = ttk.Button(
-            scrollable_frame,
-            text=texto,
-            image=img,
-            compound="left",
-            style=style_btn,
-            command=on_pedido_click
-        )
-        button.bind("<Enter>", lambda e, btn=button: parar_som(btn=btn))
-        button.pack(fill="x", pady=4, padx=16)
-        ToolTip(button, status_descricoes[cor])
-        buttons.append(button)
-        if pedido.get("novo_mqtt"):
-            novo_btn_idx = idx
-            tem_novo = True
-    # Notificação persistente: se houver novo pedido, inicia loop de som
-    if tem_novo:
-        if not notificacao_ativa:
-            tocar_som_persistente()
-    else:
-        parar_som()
-    return novo_btn_idx
+                dados_ficticios = []
+        if not isinstance(dados_ficticios, list):
+            dados_ficticios = []
+        dados_ficticios.sort(key=chave_ordenacao)
+        # Remove todos os widgets do frame (botões e labels de separação)
+        for widget in scrollable_frame.winfo_children():
+            widget.destroy()
+        buttons.clear()
+        color_images.clear()
+        # Agrupamento visual por status
+        ultimo_status = None
+        status_labels = {}
+        novo_btn_idx = None
+        tem_novo = False
+        for idx, pedido in enumerate(dados_ficticios):
+            status_idx = pedido["status"] - 1
+            cor = status_cores[status_idx]
+            # Adiciona separador/título de grupo se mudou o status
+            if pedido["status"] != ultimo_status:
+                if pedido["status"] not in status_labels:
+                    # Ajuste de cor do fundo do label conforme tema
+                    if modo_escuro:
+                        bg_label = "#232323"
+                        fg_label = cor
+                    else:
+                        bg_label = "#E9E9E9"
+                        fg_label = cor
+                    label = tk.Label(
+                        scrollable_frame,
+                        text=status_descricoes[cor],
+                        bg=bg_label,
+                        fg=fg_label,
+                        font=("Inter SemiBold", 11, "bold"),
+                        anchor="w",
+                        padx=8
+                    )
+                    label.pack(fill="x", pady=(10, 2), padx=4)
+                    status_labels[pedido["status"]] = label
+                ultimo_status = pedido["status"]
+            img = PhotoImage(width=20, height=20)
+            for x in range(20):
+                for y in range(20):
+                    if (x - 10) ** 2 + (y - 10) ** 2 <= 100:
+                        img.put(cor, (x, y))
+            color_images.append(img)
+            datahora_pedido = pedido['datahora']
+            # Corrige o parse da data para aceitar o formato ISO 8601
+            try:
+                # Remove o 'Z' e os milissegundos se existirem
+                if datahora_pedido.endswith('Z'):
+                    datahora_pedido = datahora_pedido[:-1]
+                if '.' in datahora_pedido:
+                    datahora_pedido = datahora_pedido.split('.')[0]
+                datahora_pedido = datetime.strptime(datahora_pedido, "%Y-%m-%dT%H:%M:%S")
+            except Exception:
+                datahora_pedido = datetime.now()
+            diff = datetime.now() - datahora_pedido
+            primeiro_nome = pedido['nome'].split()[0]
+            texto = f"{pedido['numero']} - {primeiro_nome} - {formatar_tempo(diff)}"
+            style_btn = "Novo.TButton" if pedido.get("novo_mqtt") else "Rounded.TButton"
+            click_count = {'count': 0}  # contador de cliques por botão
+            def on_pedido_click(p=pedido, btn_idx=idx):
+                click_count['count'] += 1
+                if click_count['count'] == 1:
+                    parar_som()  # não passa btn, assim não muda o estilo
+                else:
+                    parar_som()
+                    webbrowser.open(
+                        f"https://chat.autopyweb.com.br/app/accounts/{p['account_id']}/conversations/{p['chatid']}",
+                        new=0
+                    )
+                    click_count['count'] = 0  # reseta para permitir novo ciclo
+            button = ttk.Button(
+                scrollable_frame,
+                text=texto,
+                image=img,
+                compound="left",
+                style=style_btn,
+                command=on_pedido_click
+            )
+            button.bind("<Enter>", lambda e, btn=button: parar_som(btn=btn))
+            button.pack(fill="x", pady=4, padx=16)
+            ToolTip(button, status_descricoes[cor])
+            buttons.append(button)
+            if pedido.get("novo_mqtt"):
+                novo_btn_idx = idx
+                tem_novo = True
+        # Notificação persistente: se houver novo pedido, inicia loop de som
+        if tem_novo:
+            if not notificacao_ativa:
+                tocar_som_persistente()
+        else:
+            parar_som()
+        return novo_btn_idx
+    except Exception as e:
+        messagebox.showerror("Erro na atualização da lista", f"Erro ao atualizar a lista de pedidos: {e}")
+        return None
+
+def atualizar_dados_periodicamente():
+    """
+    Atualiza os dados de pedidos automaticamente a cada 2 minutos.
+    """
+    global dados_ficticios
+    novos_dados = buscar_dados_postgres()
+    if isinstance(novos_dados, dict) and "dados" in novos_dados:
+        novos_dados = novos_dados["dados"]
+    elif not isinstance(novos_dados, list):
+        novos_dados = []
+    if not isinstance(dados_ficticios, list):
+        dados_ficticios = []
+    if novos_dados != dados_ficticios:
+        dados_ficticios.clear()
+        dados_ficticios.extend(novos_dados)
+        atualizar_lista_e_botoes()
+    window.after(120000, atualizar_dados_periodicamente)  # 2 minutos
 
 # Cores e descrições
 status_cores = [
@@ -455,6 +489,10 @@ carregando_label.pack(pady=20)
 window.update()
 
 def buscar_dados_postgres():
+    """
+    Busca os dados de pedidos via API protegida por JWT.
+    Retorna uma lista de pedidos ou lista vazia em caso de erro.
+    """
     SECRET = "9E32FBF5414937A46F1D29E1C8DC7"
     payload = {
         "iat": int(time.time()),
@@ -481,9 +519,7 @@ def buscar_dados_postgres():
             decoded = jwt.decode(token, SECRET, algorithms=["HS256"])
             return decoded.get("dados", [])
     except Exception as e:
-        import traceback
-        print(f"Erro ao buscar dados via API: {e}")
-        traceback.print_exc()
+        messagebox.showerror("Erro ao buscar dados", f"Não foi possível buscar os dados: {e}")
         return []
 
 dados_ficticios = buscar_dados_postgres()
@@ -499,6 +535,7 @@ buttons = []
 color_images = []
 carregar_config()  # <-- Agora é seguro chamar aqui, após definir buttons/color_images e carregar dados
 atualizar_lista_e_botoes()
+atualizar_dados_periodicamente()
 
 # Ajuste na chamada do winsound para respeitar o toggle
 def tocar_som_notificacao():
