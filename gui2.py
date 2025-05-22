@@ -58,7 +58,7 @@ def chave_ordenacao(pedido):
         prioridade = 7
     else:
         prioridade = 8
-    # Corrige o parse da data para aceitar o formato ISO 8601
+    # Corrige o parse da data para aceitar o formato ISO 8601 UTC
     datahora_str = pedido['datahora']
     try:
         # Remove o 'Z' e os milissegundos se existirem
@@ -66,9 +66,9 @@ def chave_ordenacao(pedido):
             datahora_str = datahora_str[:-1]
         if '.' in datahora_str:
             datahora_str = datahora_str.split('.')[0]
-        datahora = datetime.strptime(datahora_str, "%Y-%m-%dT%H:%M:%S")
+        datahora = datetime.strptime(datahora_str, "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc)
     except Exception:
-        datahora = datetime.now()
+        datahora = datetime.now(timezone.utc)
     return (prioridade, -datahora.timestamp())
 
 def salvar_config():
@@ -138,10 +138,11 @@ def atualizar_lista_e_botoes():
                         datahora_pedido = datahora_pedido[:-1]
                     if '.' in datahora_pedido:
                         datahora_pedido = datahora_pedido.split('.')[0]
-                    datahora_pedido_dt = datetime.strptime(datahora_pedido, "%Y-%m-%dT%H:%M:%S")
+                    datahora_pedido_dt = datetime.strptime(datahora_pedido, "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc)
                 except Exception:
-                    datahora_pedido_dt = agora
-                if (agora - datahora_pedido_dt).total_seconds() > 86400:
+                    datahora_pedido_dt = datetime.now(timezone.utc)
+                agora_utc = datetime.now(timezone.utc)
+                if (agora_utc - datahora_pedido_dt).total_seconds() > 86400:
                     continue  # pula pedidos entregues com mais de 24h
             status_idx = pedido["status"] - 1
             cor = status_cores[status_idx]
@@ -180,10 +181,10 @@ def atualizar_lista_e_botoes():
                     datahora_pedido = datahora_pedido[:-1]
                 if '.' in datahora_pedido:
                     datahora_pedido = datahora_pedido.split('.')[0]
-                datahora_pedido = datetime.strptime(datahora_pedido, "%Y-%m-%dT%H:%M:%S")
+                datahora_pedido_dt = datetime.strptime(datahora_pedido, "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc)
             except Exception:
-                datahora_pedido = datetime.now()
-            diff = datetime.now() - datahora_pedido
+                datahora_pedido_dt = datetime.now(timezone.utc)
+            diff = datetime.now(timezone.utc) - datahora_pedido_dt
             primeiro_nome = pedido['nome'].split()[0]
             texto = f"{pedido['numero']} - {primeiro_nome} - {formatar_tempo(diff)}"
             style_btn = "Novo.TButton" if pedido.get("novo_mqtt") else "Rounded.TButton"
@@ -523,14 +524,22 @@ def buscar_dados_postgres():
         try:
             dados = response.json()
             if isinstance(dados, dict) and "token" in dados:
-                decoded = jwt.decode(dados["token"], SECRET, algorithms=["HS256"])
+                try:
+                    decoded = jwt.decode(dados["token"], SECRET, algorithms=["HS256"])
+                except Exception as e:
+                    messagebox.showerror("Erro ao decodificar JWT", f"Erro ao decodificar token JWT: {e}\n\nToken recebido: {dados['token']}")
+                    return []
                 return decoded.get("dados", [])
             if isinstance(dados, dict) and "dados" in dados:
                 return dados["dados"]
             return dados
         except Exception:
             token = response.text.strip('"')
-            decoded = jwt.decode(token, SECRET, algorithms=["HS256"])
+            try:
+                decoded = jwt.decode(token, SECRET, algorithms=["HS256"])
+            except Exception as e:
+                messagebox.showerror("Erro ao decodificar JWT", f"Erro ao decodificar token JWT: {e}\n\nToken recebido: {token}")
+                return []
             return decoded.get("dados", [])
     except Exception as e:
         messagebox.showerror("Erro ao buscar dados", f"Não foi possível buscar os dados: {e}")
@@ -567,21 +576,20 @@ mqtt_client = iniciar_mqtt(
 
 # Atualização dinâmica dos tempos
 def atualizar_tempos():
-    agora = datetime.now()
+    agora_utc = datetime.now(timezone.utc)
     for i, pedido in enumerate(dados_ficticios):
         if i >= len(buttons):
             break  # Evita IndexError se buttons for menor
         datahora_pedido = pedido['datahora']
-        # Corrige o parse da data para aceitar o formato ISO 8601
         try:
             if datahora_pedido.endswith('Z'):
                 datahora_pedido = datahora_pedido[:-1]
             if '.' in datahora_pedido:
                 datahora_pedido = datahora_pedido.split('.')[0]
-            datahora_pedido = datetime.strptime(datahora_pedido, "%Y-%m-%dT%H:%M:%S")
+            datahora_pedido_dt = datetime.strptime(datahora_pedido, "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc)
         except Exception:
-            datahora_pedido = datetime.now()
-        diff = agora - datahora_pedido
+            datahora_pedido_dt = agora_utc
+        diff = agora_utc - datahora_pedido_dt
         primeiro_nome = pedido['nome'].split()[0]
         texto = f"{pedido['numero']} - {primeiro_nome} - {formatar_tempo(diff)}"
         buttons[i].config(text=texto)

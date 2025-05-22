@@ -4,3 +4,4 @@ pystray
 pillow
 pywin32
 winshell
+jwt

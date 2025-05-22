@@ -20,16 +20,16 @@ def on_message_factory(dados_ficticios, atualizar_lista_e_botoes, status_cores, 
         try:
             novo = json.loads(msg.payload.decode())
             try:
+                # Sempre armazena datahora em UTC ISO 8601 (com 'Z')
                 datahora_utc = datetime.fromisoformat(novo['datahora'].replace("Z", "+00:00"))
-                datahora_brasilia = datahora_utc.astimezone(timezone(timedelta(hours=-3)))
-                novo['datahora'] = datahora_brasilia.strftime("%Y-%m-%d %H:%M")
+                novo['datahora'] = datahora_utc.strftime("%Y-%m-%dT%H:%M:%SZ")
             except Exception:
-                datahora_brasilia = None
+                datahora_utc = None
             if isinstance(novo, dict) and all(k in novo for k in ("numero", "nome", "datahora", "status", "chatid", "account_id")):
                 if novo["status"] == 8:
-                    if datahora_brasilia is not None:
-                        agora = datetime.now(timezone(timedelta(hours=-3)))
-                        if (agora - datahora_brasilia) > timedelta(hours=12):
+                    if datahora_utc is not None:
+                        agora_utc = datetime.now(timezone.utc)
+                        if (agora_utc - datahora_utc) > timedelta(hours=24):
                             return
                 idx_existente = next(
                     (i for i, p in enumerate(dados_ficticios) if str(p["numero"]) == str(novo["numero"])),
