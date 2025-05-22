@@ -437,7 +437,8 @@ def verificar_atualizacao():
                     with urllib.request.urlopen(download_url, context=context) as dl, open(installer_path, 'wb') as out:
                         out.write(dl.read())
                     messagebox.showinfo("Atualização obrigatória", f"Nova versão disponível: {remote_version}\nO sistema será atualizado agora.")
-                    window.after(1000, lambda: subprocess.Popen([installer_path, "/VERYSILENT"], shell=True))
+                    # Removido /VERYSILENT para mostrar o instalador ao usuário
+                    window.after(1000, lambda: subprocess.Popen([installer_path], shell=True))
                     window.after(2000, window.destroy)
                 except Exception as e:
                     messagebox.showerror("Erro ao baixar instalador", str(e))

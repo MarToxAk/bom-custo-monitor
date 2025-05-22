@@ -1,6 +1,6 @@
 [Setup]
 AppName=Bom Custo
-AppVersion=1.0.2
+AppVersion=1.0.3
 DefaultDirName={autopf}\BomCusto
 DefaultGroupName=Bom Custo
 OutputDir=dist
