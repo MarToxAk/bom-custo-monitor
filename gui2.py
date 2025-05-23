@@ -228,7 +228,7 @@ def atualizar_lista_e_botoes():
 
 def atualizar_dados_periodicamente():
     """
-    Atualiza os dados de pedidos automaticamente a cada 2 minutos.
+    Atualiza os dados de pedidos automaticamente a cada 30 minutos.
     """
     global dados_ficticios
     novos_dados = buscar_dados_postgres()
@@ -242,7 +242,7 @@ def atualizar_dados_periodicamente():
         dados_ficticios.clear()
         dados_ficticios.extend(novos_dados)
         atualizar_lista_e_botoes()
-    window.after(120000, atualizar_dados_periodicamente)  # 2 minutos
+    window.after(1800000, atualizar_dados_periodicamente)  # 30 minutos
 
 # Cores e descrições
 status_cores = [
