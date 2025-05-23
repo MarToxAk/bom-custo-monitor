@@ -11,7 +11,6 @@ import sys
 import urllib.request
 import ssl
 import requests
-import jwt
 import time
 from db_utils import buscar_dados_postgres
 from ui_utils import ToolTip, formatar_tempo, parar_som, abrir_link
@@ -505,42 +504,20 @@ window.update()
 
 def buscar_dados_postgres():
     """
-    Busca os dados de pedidos via API protegida por JWT.
+    Busca os dados de pedidos via API (sem autenticação JWT).
     Retorna uma lista de pedidos ou lista vazia em caso de erro.
     """
-    SECRET = "9E32FBF5414937A46F1D29E1C8DC7"
-    payload = {
-        "iat": int(time.time()),
-        "exp": int(time.time()) + 60
-    }
-    JWT_TOKEN = jwt.encode(payload, SECRET, algorithm="HS256")
     url = "https://n8n.autopyweb.com.br/webhook/41ce2ba0-9fc3-4ebb-852b-7c8714048bdf"
-    headers = {
-        "Authorization": f"Bearer {JWT_TOKEN}"
-    }
     try:
-        response = requests.get(url, headers=headers, timeout=10)
+        response = requests.get(url, timeout=10)
         response.raise_for_status()
         try:
             dados = response.json()
-            if isinstance(dados, dict) and "token" in dados:
-                try:
-                    decoded = jwt.decode(dados["token"], SECRET, algorithms=["HS256"])
-                except Exception as e:
-                    messagebox.showerror("Erro ao decodificar JWT", f"Erro ao decodificar token JWT: {e}\n\nToken recebido: {dados['token']}")
-                    return []
-                return decoded.get("dados", [])
             if isinstance(dados, dict) and "dados" in dados:
                 return dados["dados"]
             return dados
         except Exception:
-            token = response.text.strip('"')
-            try:
-                decoded = jwt.decode(token, SECRET, algorithms=["HS256"])
-            except Exception as e:
-                messagebox.showerror("Erro ao decodificar JWT", f"Erro ao decodificar token JWT: {e}\n\nToken recebido: {token}")
-                return []
-            return decoded.get("dados", [])
+            return []
     except Exception as e:
         messagebox.showerror("Erro ao buscar dados", f"Não foi possível buscar os dados: {e}")
         return []
