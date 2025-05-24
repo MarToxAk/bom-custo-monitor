@@ -16,9 +16,9 @@ from db_utils import buscar_dados_postgres
 from ui_utils import ToolTip, formatar_tempo, parar_som, abrir_link
 from mqtt_utils import on_connect, on_message_factory, iniciar_mqtt
 from config import MQTT_HOST, MQTT_PORT  # (crie config.py se desejar centralizar variáveis)
-from tray_utils import minimizar_para_bandeja
+from tray_utils import minimizar_para_bandeja, restaurar_janela
 
-APP_VERSION = "1.0.3"
+APP_VERSION = "1.0.6"
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"\\bot\Programa\Status\build\assets\frame0")
@@ -102,6 +102,15 @@ def carregar_config():
     else:
         atualizar_lista_e_botoes()
 
+def tocar_som_breve():
+    if not tocar_som:
+        return
+    if som_personalizado:
+        winsound.PlaySound(som_personalizado, winsound.SND_FILENAME | winsound.SND_ASYNC)
+    else:
+        winsound.PlaySound("SystemExclamation", winsound.SND_ALIAS | winsound.SND_ASYNC)
+    # Não agenda repetição
+
 def atualizar_lista_e_botoes():
     """
     Atualiza a lista de pedidos na interface e os botões de ação.
@@ -127,6 +136,7 @@ def atualizar_lista_e_botoes():
         status_labels = {}
         novo_btn_idx = None
         tem_novo = False
+        tem_novo_status_persistente = False
         agora = datetime.now()
         for idx, pedido in enumerate(dados_ficticios):
             # Filtrar status 8 para exibir apenas até 24h
@@ -214,10 +224,16 @@ def atualizar_lista_e_botoes():
             if pedido.get("novo_mqtt"):
                 novo_btn_idx = idx
                 tem_novo = True
-        # Notificação persistente: se houver novo pedido, inicia loop de som
-        if tem_novo:
+                if pedido["status"] in (1, 3):
+                    tem_novo_status_persistente = True
+        # Notificação persistente: se houver novo pedido status 1 ou 3, inicia loop de som
+        if tem_novo_status_persistente:
             if not notificacao_ativa:
                 tocar_som_persistente()
+        elif tem_novo:
+            # Toca som breve apenas uma vez para outros status
+            if not notificacao_ativa:
+                tocar_som_breve()
         else:
             parar_som()
         return novo_btn_idx
@@ -231,15 +247,18 @@ def atualizar_dados_periodicamente():
     """
     global dados_ficticios
     novos_dados = buscar_dados_postgres()
-    if isinstance(novos_dados, dict) and "dados" in novos_dados:
-        novos_dados = novos_dados["dados"]
-    elif not isinstance(novos_dados, list):
-        novos_dados = []
+    # Garante que novos_dados seja sempre uma lista de pedidos
+    if isinstance(novos_dados, list):
+        pedidos = novos_dados
+    elif isinstance(novos_dados, dict) and "dados" in novos_dados:
+        pedidos = novos_dados["dados"]
+    else:
+        pedidos = []
     if not isinstance(dados_ficticios, list):
         dados_ficticios = []
-    if novos_dados != dados_ficticios:
+    if pedidos != dados_ficticios:
         dados_ficticios.clear()
-        dados_ficticios.extend(novos_dados)
+        dados_ficticios.extend(pedidos)
         atualizar_lista_e_botoes()
     window.after(1800000, atualizar_dados_periodicamente)  # 30 minutos
 
@@ -431,16 +450,27 @@ def verificar_atualizacao():
                 # Atualização obrigatória: não pergunta ao usuário
                 import tempfile
                 import subprocess
+                from urllib.parse import urlparse
                 temp_dir = tempfile.gettempdir()
-                installer_path = os.path.join(temp_dir, "StatusMonitor_update.exe")
+                # Extrai o nome do arquivo da URL para manter o nome original
+                parsed_url = urlparse(download_url)
+                installer_name = os.path.basename(parsed_url.path)
+                installer_path = os.path.join(temp_dir, installer_name)
                 try:
+                    # Faz o download do instalador mantendo o nome original
                     with urllib.request.urlopen(download_url, context=context) as dl, open(installer_path, 'wb') as out:
                         out.write(dl.read())
-                    messagebox.showinfo("Atualização obrigatória", f"Nova versão disponível: {remote_version}\nO sistema será atualizado agora.")
-                    # Removido /VERYSILENT para mostrar o instalador ao usuário
-                    window.after(1000, lambda: subprocess.Popen([installer_path], shell=True))
-                    window.after(2000, window.destroy)
+                    # Notifica o usuário sobre a atualização obrigatória
+                    messagebox.showinfo(
+                        "Atualização obrigatória",
+                        f"Nova versão disponível: {remote_version}\nO sistema será atualizado agora."
+                    )
+                    # Executa o instalador diretamente, sem renomear
+                    subprocess.Popen([installer_path], shell=False)
+                    # Fecha o app após breve atraso para liberar o arquivo
+                    window.after(500, window.destroy)
                 except Exception as e:
+                    # Mostra erro caso o download ou execução falhe
                     messagebox.showerror("Erro ao baixar instalador", str(e))
         # Não exibe mensagem se já está na versão mais recente
     except Exception as e:
@@ -506,6 +536,7 @@ def buscar_dados_postgres():
     """
     Busca os dados de pedidos via API (sem autenticação JWT).
     Retorna uma lista de pedidos ou lista vazia em caso de erro.
+    Agora lida com o novo formato: lista de dicts com chave "dados".
     """
     url = "https://n8n.autopyweb.com.br/webhook/41ce2ba0-9fc3-4ebb-852b-7c8714048bdf"
     try:
@@ -513,7 +544,14 @@ def buscar_dados_postgres():
         response.raise_for_status()
         try:
             dados = response.json()
-            if isinstance(dados, dict) and "dados" in dados:
+            # Novo formato: lista de dicts com chave "dados"
+            if isinstance(dados, list):
+                pedidos = []
+                for item in dados:
+                    if isinstance(item, dict) and "dados" in item and isinstance(item["dados"], list):
+                        pedidos.extend(item["dados"])
+                return pedidos
+            elif isinstance(dados, dict) and "dados" in dados:
                 return dados["dados"]
             return dados
         except Exception:
@@ -523,13 +561,14 @@ def buscar_dados_postgres():
         return []
 
 dados_ficticios = buscar_dados_postgres()
-if isinstance(dados_ficticios, dict):
-    # Se ainda vier dict, tenta extrair a lista da chave correta
-    if "dados" in dados_ficticios:
-        dados_ficticios = dados_ficticios["dados"]
-    else:
-        # Se não houver chave 'dados', transforma em lista vazia para evitar erro
-        dados_ficticios = []
+# Garante que dados_ficticios seja sempre uma lista de pedidos
+if isinstance(dados_ficticios, list):
+    # Já está correto
+    pass
+elif isinstance(dados_ficticios, dict) and "dados" in dados_ficticios:
+    dados_ficticios = dados_ficticios["dados"]
+else:
+    dados_ficticios = []
 carregando_label.destroy()
 buttons = []
 color_images = []
@@ -537,11 +576,19 @@ carregar_config()  # <-- Agora é seguro chamar aqui, após definir buttons/colo
 atualizar_lista_e_botoes()
 atualizar_dados_periodicamente()
 
+# --- Função para restaurar e forçar topo ---
+def restaurar_e_topmost(window):
+    restaurar_janela(window)
+    window.attributes('-topmost', True)
+    window.after(5000, lambda: window.attributes('-topmost', False))
+
 # Ajuste na chamada do winsound para respeitar o toggle
 def tocar_som_notificacao():
     # Compatibilidade: dispara notificação persistente
     if not notificacao_ativa:
         tocar_som_persistente()
+    # Restaura e força topo ao receber notificação
+    restaurar_e_topmost(window)
 
 # Inicialização do MQTT
 mqtt_client = iniciar_mqtt(
@@ -587,4 +634,28 @@ window.protocol("WM_DELETE_WINDOW", on_closing)
 window.resizable(False, False)
 # Chama a verificação de atualização automaticamente ao iniciar o app
 window.after(1000, verificar_atualizacao)
+
+import atexit
+import tempfile
+import msvcrt
+
+# --- Singleton: impede múltiplas instâncias ---
+lock_file_path = os.path.join(config_dir, 'StatusMonitor.lock')
+try:
+    lock_file = open(lock_file_path, 'w')
+    msvcrt.locking(lock_file.fileno(), msvcrt.LK_NBLCK, 1)
+except OSError:
+    messagebox.showerror("Já está em execução", "O Monitor de Produção já está aberto.")
+    sys.exit(0)
+
+def liberar_lock():
+    try:
+        msvcrt.locking(lock_file.fileno(), msvcrt.LK_UNLCK, 1)
+        lock_file.close()
+        os.remove(lock_file_path)
+    except Exception:
+        pass
+atexit.register(liberar_lock)
+# --- Fim singleton ---
+
 window.mainloop()
