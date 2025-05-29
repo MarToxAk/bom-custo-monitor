@@ -17,8 +17,9 @@ from ui_utils import ToolTip, formatar_tempo, parar_som, abrir_link
 from mqtt_utils import on_connect, on_message_factory, iniciar_mqtt
 from config import MQTT_HOST, MQTT_PORT  # (crie config.py se desejar centralizar variáveis)
 from tray_utils import minimizar_para_bandeja, restaurar_janela
+from impressao_termica import imprimir_pedido_termica
 
-APP_VERSION = "1.0.6"
+APP_VERSION = "1.0.7"
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"\\bot\Programa\Status\build\assets\frame0")
@@ -72,36 +73,30 @@ def chave_ordenacao(pedido):
 
 def salvar_config():
     config = {
-        'tocar_som': tocar_som,
-        'som_personalizado': som_personalizado,
-        'modo_escuro': modo_escuro
+        "impressora_termica": impressora_termica,
+        "modo_impressao": modo_impressao,
+        "metodo_impressao_termica": metodo_impressao_termica,
+        # ...adicione outros parâmetros se necessário...
     }
-    with open(CONFIG_FILE, 'w', encoding='utf-8') as f:
-        json.dump(config, f)
+    try:
+        with open(CONFIG_FILE, "w", encoding="utf-8") as f:
+            import json
+            json.dump(config, f)
+    except Exception:
+        pass
 
 def carregar_config():
-    global tocar_som, som_personalizado, modo_escuro
-    if os.path.exists(CONFIG_FILE):
-        with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
+    global impressora_termica, modo_impressao, metodo_impressao_termica
+    try:
+        with open(CONFIG_FILE, "r", encoding="utf-8") as f:
+            import json
             config = json.load(f)
-            tocar_som = config.get('tocar_som', True)
-            som_personalizado = config.get('som_personalizado', None)
-            modo_escuro = config.get('modo_escuro', True)
-    # Atualiza o menu e interface conforme config carregada
-    if tocar_som:
-        som_menu.entryconfig(0, label="Desabilitar som de notificação")
-    else:
-        som_menu.entryconfig(0, label="Habilitar som de notificação")
-    if som_personalizado:
-        som_menu.entryconfig(2, label=f"Som: {os.path.basename(som_personalizado)}")
-    else:
-        som_menu.entryconfig(2, label="Som: padrão do sistema")
-    # Corrige: só chama alternar_tema se o valor salvo for diferente do atual
-    if modo_escuro != (window['bg'] == '#2C2C2C'):
-        alternar_tema()
-    else:
-        atualizar_lista_e_botoes()
-
+            impressora_termica = config.get("impressora_termica", None)
+            modo_impressao = config.get("modo_impressao", "Usuário")
+            metodo_impressao_termica = config.get("metodo_impressao_termica", "win32print")
+    except Exception:
+        pass
+# ...existing code...
 def tocar_som_breve():
     if not tocar_som:
         return
@@ -236,6 +231,8 @@ def atualizar_lista_e_botoes():
                 tocar_som_breve()
         else:
             parar_som()
+        # Após atualizar a lista, imprimir se necessário
+        # Removido: impressão automática ao atualizar lista
         return novo_btn_idx
     except Exception as e:
         messagebox.showerror("Erro na atualização da lista", f"Erro ao atualizar a lista de pedidos: {e}")
@@ -350,6 +347,76 @@ style.map(
 # Variável global para controle do som
 tocar_som = True
 som_personalizado = None
+
+# Variáveis para impressão térmica
+impressora_termica = None
+modo_impressao = "Usuário"  # Opções: Usuário, Produção, Orçamento
+metodo_impressao_termica = "win32print"  # Opções: win32print, arquivo_txt
+
+import win32print
+
+# --- Seleção de método de impressão ---
+def selecionar_metodo_impressao():
+    global metodo_impressao_termica
+    top = tk.Toplevel(window)
+    top.title("Selecionar Método de Impressão Térmica")
+    tk.Label(top, text="Escolha o método de impressão:").pack(padx=10, pady=10)
+    var = tk.StringVar(value=metodo_impressao_termica)
+    opcoes = [
+        ("Impressão direta (win32print)", "win32print"),
+        ("Arquivo TXT + Notepad /p (compatível)", "arquivo_txt")
+    ]
+    for texto, valor in opcoes:
+        tk.Radiobutton(top, text=texto, variable=var, value=valor).pack(anchor="w")
+    def confirmar():
+        global metodo_impressao_termica
+        metodo_impressao_termica = var.get()
+        salvar_config()
+        top.destroy()
+    tk.Button(top, text="OK", command=confirmar).pack(pady=10)
+
+def selecionar_impressora():
+    global impressora_termica
+    def atualizar_lista():
+        for widget in frame_lista.winfo_children():
+            widget.destroy()
+        flags = win32print.PRINTER_ENUM_CONNECTIONS | win32print.PRINTER_ENUM_LOCAL
+        impressoras = [printer[2] for printer in win32print.EnumPrinters(flags)]
+        if not impressoras:
+            tk.Label(frame_lista, text="Nenhuma impressora encontrada.").pack()
+            return
+        var.set(impressora_termica if impressora_termica in impressoras else impressoras[0])
+        for imp in impressoras:
+            tk.Radiobutton(frame_lista, text=imp, variable=var, value=imp).pack(anchor="w")
+    top = tk.Toplevel(window)
+    top.title("Selecionar Impressora Térmica")
+    tk.Label(top, text="Escolha a impressora:").pack(padx=10, pady=10)
+    var = tk.StringVar()
+    frame_lista = tk.Frame(top)
+    frame_lista.pack(padx=10, pady=5)
+    atualizar_lista()
+    tk.Button(top, text="Atualizar lista", command=atualizar_lista).pack(pady=2)
+    def confirmar():
+        global impressora_termica
+        impressora_termica = var.get()
+        salvar_config()
+        top.destroy()
+    tk.Button(top, text="OK", command=confirmar).pack(pady=10)
+
+def selecionar_modo():
+    global modo_impressao
+    top = tk.Toplevel(window)
+    top.title("Selecionar Modo de Impressão")
+    tk.Label(top, text="Escolha o modo:").pack(padx=10, pady=10)
+    var = tk.StringVar(value=modo_impressao)
+    for modo in ("Usuário", "Produção", "Orçamento"):
+        tk.Radiobutton(top, text=modo, variable=var, value=modo).pack(anchor="w")
+    def confirmar():
+        global modo_impressao
+        modo_impressao = var.get()
+        salvar_config()
+        top.destroy()
+    tk.Button(top, text="OK", command=confirmar).pack(pady=10)
 
 # --- Notificação persistente ---
 notificacao_ativa = False
@@ -490,6 +557,9 @@ som_menu = tk.Menu(top_menu, tearoff=0)
 som_menu.add_command(label="Desabilitar som de notificação", command=toggle_som)
 som_menu.add_command(label="Tema claro", command=alternar_tema)
 som_menu.add_command(label="Som: padrão do sistema", command=escolher_som)
+som_menu.add_command(label="Selecionar impressora térmica", command=selecionar_impressora)
+som_menu.add_command(label="Selecionar modo de impressão", command=selecionar_modo)
+som_menu.add_command(label="Selecionar método de impressão térmica", command=selecionar_metodo_impressao)
 top_menu.add_cascade(label="Opções", menu=som_menu)
 
 # Adiciona menu Ajuda/Sobre
@@ -590,72 +660,74 @@ def tocar_som_notificacao():
     # Restaura e força topo ao receber notificação
     restaurar_e_topmost(window)
 
-# Inicialização do MQTT
+# --- Substituir a factory do MQTT para imprimir só via MQTT ---
+def on_message_factory_custom(dados_ficticios, atualizar_lista_e_botoes, status_cores, status_descricoes, buttons, tocar_som_notificacao, messagebox, abrir_link, parar_som):
+    try:
+        from winotify import Notification
+    except ImportError:
+        Notification = None
+    def on_message(client, userdata, msg):
+        import json
+        from config import MQTT_HOST, MQTT_PORT
+        try:
+            novo = json.loads(msg.payload.decode())
+            try:
+                from datetime import datetime, timezone, timedelta
+                datahora_utc = datetime.fromisoformat(novo['datahora'].replace("Z", "+00:00"))
+                novo['datahora'] = datahora_utc.strftime("%Y-%m-%dT%H:%M:%SZ")
+            except Exception:
+                datahora_utc = None
+            if isinstance(novo, dict) and all(k in novo for k in ("numero", "nome", "datahora", "status", "chatid", "account_id")):
+                if novo["status"] == 8:
+                    if datahora_utc is not None:
+                        agora_utc = datetime.now(timezone.utc)
+                        if (agora_utc - datahora_utc) > timedelta(hours=24):
+                            return
+                idx_existente = next(
+                    (i for i, p in enumerate(dados_ficticios) if str(p["numero"]) == str(novo["numero"])),
+                    None
+                )
+                if idx_existente is not None:
+                    del dados_ficticios[idx_existente]
+                novo["novo_mqtt"] = True
+                dados_ficticios.append(novo)
+                # Imprime SOMENTE quando chega via MQTT
+                imprimir_pedido_termica(
+                    novo,
+                    impressora_termica,
+                    metodo_impressao_termica,
+                    modo_impressao,
+                    status_descricoes,
+                    status_cores,
+                    salvar_config
+                )
+                novo_btn_idx = atualizar_lista_e_botoes()
+                # Notificação winotify para qualquer status
+                status_idx = novo["status"] - 1
+                cor = status_cores[status_idx]
+                url = f"https://chat.autopyweb.com.br/app/accounts/{novo['account_id']}/conversations/{novo['chatid']}"
+                if Notification:
+                    try:
+                        toast = Notification(
+                            app_id="StatusMonitor",
+                            title=f"Novo status: {status_descricoes[cor]}",
+                            msg=f"Pedido {novo['numero']} - {novo['nome']}\nClique para abrir o chat."
+                        )
+                        toast.add_actions(label="Abrir chat", launch=url)
+                        toast.show()
+                    except Exception:
+                        pass
+                if novo["status"] in (1, 3, 7):
+                    tocar_som_notificacao()
+        except Exception:
+            pass
+    return on_message
+
+# Substituir a factory do MQTT na inicialização:
 mqtt_client = iniciar_mqtt(
     on_connect,
-    on_message_factory(dados_ficticios, atualizar_lista_e_botoes, status_cores, status_descricoes, buttons, tocar_som_notificacao, messagebox, abrir_link, parar_som),
+    on_message_factory_custom(dados_ficticios, atualizar_lista_e_botoes, status_cores, status_descricoes, buttons, tocar_som_notificacao, messagebox, abrir_link, parar_som),
     MQTT_HOST,
     MQTT_PORT
 )
-
-# Atualização dinâmica dos tempos
-def atualizar_tempos():
-    agora_utc = datetime.now(timezone.utc)
-    for i, pedido in enumerate(dados_ficticios):
-        if i >= len(buttons):
-            break  # Evita IndexError se buttons for menor
-        datahora_pedido = pedido['datahora']
-        try:
-            if datahora_pedido.endswith('Z'):
-                datahora_pedido = datahora_pedido[:-1]
-            if '.' in datahora_pedido:
-                datahora_pedido = datahora_pedido.split('.')[0]
-            datahora_pedido_dt = datetime.strptime(datahora_pedido, "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc)
-        except Exception:
-            datahora_pedido_dt = agora_utc
-        diff = agora_utc - datahora_pedido_dt
-        primeiro_nome = pedido['nome'].split()[0]
-        texto = f"{pedido['numero']} - {primeiro_nome} - {formatar_tempo(diff)}"
-        buttons[i].config(text=texto)
-    window.after(60000, atualizar_tempos)
-
-atualizar_tempos()
-
-# Vincula evento de minimizar
-window.bind('<Unmap>', lambda e: minimizar_para_bandeja(window, messagebox, on_closing) if window.state() == 'iconic' else None)
-
-# Confirmação ao fechar a janela
-def on_closing():
-    salvar_config()
-    if messagebox.askokcancel("Sair", "Deseja realmente fechar o sistema?"):
-        window.destroy()
-window.protocol("WM_DELETE_WINDOW", on_closing)
-
-window.resizable(False, False)
-# Chama a verificação de atualização automaticamente ao iniciar o app
-window.after(1000, verificar_atualizacao)
-
-import atexit
-import tempfile
-import msvcrt
-
-# --- Singleton: impede múltiplas instâncias ---
-lock_file_path = os.path.join(config_dir, 'StatusMonitor.lock')
-try:
-    lock_file = open(lock_file_path, 'w')
-    msvcrt.locking(lock_file.fileno(), msvcrt.LK_NBLCK, 1)
-except OSError:
-    messagebox.showerror("Já está em execução", "O Monitor de Produção já está aberto.")
-    sys.exit(0)
-
-def liberar_lock():
-    try:
-        msvcrt.locking(lock_file.fileno(), msvcrt.LK_UNLCK, 1)
-        lock_file.close()
-        os.remove(lock_file_path)
-    except Exception:
-        pass
-atexit.register(liberar_lock)
-# --- Fim singleton ---
-
 window.mainloop()
