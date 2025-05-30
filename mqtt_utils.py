@@ -6,7 +6,7 @@ from datetime import datetime, timezone, timedelta
 
 def on_connect(client, userdata, flags, rc):
     # print("Conectado ao MQTT Broker:", MQTT_HOST, "com código", rc)
-    client.subscribe("status/status2")
+    client.subscribe("status/status")
     client.subscribe("status/refresh" )
 
 # O callback de mensagem

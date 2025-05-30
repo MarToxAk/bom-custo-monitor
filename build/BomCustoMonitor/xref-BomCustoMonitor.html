@@ -153,9 +153,9 @@ imports:
  &#8226;   <a href="#functools">functools</a>
  &#8226;   <a href="#genericpath">genericpath</a>
  &#8226;   <a href="#heapq">heapq</a>
+ &#8226;   <a href="#impressao_termica">impressao_termica</a>
  &#8226;   <a href="#io">io</a>
  &#8226;   <a href="#json">json</a>
- &#8226;   <a href="#jwt">jwt</a>
  &#8226;   <a href="#keyword">keyword</a>
  &#8226;   <a href="#linecache">linecache</a>
  &#8226;   <a href="#locale">locale</a>
@@ -197,10 +197,13 @@ imports:
  &#8226;   <a href="#tray_utils">tray_utils</a>
  &#8226;   <a href="#types">types</a>
  &#8226;   <a href="#ui_utils">ui_utils</a>
+ &#8226;   <a href="#urllib.parse">urllib.parse</a>
  &#8226;   <a href="#urllib.request">urllib.request</a>
  &#8226;   <a href="#warnings">warnings</a>
  &#8226;   <a href="#weakref">weakref</a>
  &#8226;   <a href="#webbrowser">webbrowser</a>
+ &#8226;   <a href="#win32print">win32print</a>
+ &#8226;   <a href="#winotify">winotify</a>
  &#8226;   <a href="#winsound">winsound</a>
 
   </div>
@@ -417,8 +420,6 @@ imported by:
  &#8226;   <a href="#http.client">http.client</a>
  &#8226;   <a href="#importlib.resources.readers">importlib.resources.readers</a>
  &#8226;   <a href="#inspect">inspect</a>
- &#8226;   <a href="#jwt.api_jws">jwt.api_jws</a>
- &#8226;   <a href="#jwt.api_jwt">jwt.api_jwt</a>
  &#8226;   <a href="#logging">logging</a>
  &#8226;   <a href="#pkg_resources">pkg_resources</a>
  &#8226;   <a href="#requests.compat">requests.compat</a>
@@ -701,8 +702,13 @@ imported by:
  &#8226;   <a href="#PIL._version">PIL._version</a>
  &#8226;   <a href="#PIL._webp">PIL._webp</a>
  &#8226;   <a href="#PIL.features">PIL.features</a>
+ &#8226;   <a href="#impressao_termica">impressao_termica</a>
  &#8226;   <a href="#pystray._darwin">pystray._darwin</a>
  &#8226;   <a href="#pystray._xorg">pystray._xorg</a>
+ &#8226;   <a href="#qrcode.image.pil">qrcode.image.pil</a>
+ &#8226;   <a href="#qrcode.image.styledpil">qrcode.image.styledpil</a>
+ &#8226;   <a href="#qrcode.image.styles.colormasks">qrcode.image.styles.colormasks</a>
+ &#8226;   <a href="#qrcode.image.styles.moduledrawers.pil">qrcode.image.styles.moduledrawers.pil</a>
  &#8226;   <a href="#tray_utils">tray_utils</a>
 
   </div>
@@ -1390,6 +1396,11 @@ imported by:
  &#8226;   <a href="#PIL.XbmImagePlugin">PIL.XbmImagePlugin</a>
  &#8226;   <a href="#PIL.XpmImagePlugin">PIL.XpmImagePlugin</a>
  &#8226;   <a href="#PIL.features">PIL.features</a>
+ &#8226;   <a href="#impressao_termica">impressao_termica</a>
+ &#8226;   <a href="#qrcode.image.pil">qrcode.image.pil</a>
+ &#8226;   <a href="#qrcode.image.styledpil">qrcode.image.styledpil</a>
+ &#8226;   <a href="#qrcode.image.styles.colormasks">qrcode.image.styles.colormasks</a>
+ &#8226;   <a href="#qrcode.image.styles.moduledrawers.pil">qrcode.image.styles.moduledrawers.pil</a>
  &#8226;   <a href="#tray_utils">tray_utils</a>
 
   </div>
@@ -1495,6 +1506,8 @@ imports:
 imported by:
     <a href="#PIL">PIL</a>
  &#8226;   <a href="#PIL.ImageDraw2">PIL.ImageDraw2</a>
+ &#8226;   <a href="#qrcode.image.pil">qrcode.image.pil</a>
+ &#8226;   <a href="#qrcode.image.styles.moduledrawers.pil">qrcode.image.styles.moduledrawers.pil</a>
  &#8226;   <a href="#tray_utils">tray_utils</a>
 
   </div>
@@ -3183,10 +3196,6 @@ imported by:
  &#8226;   <a href="#importlib.metadata">importlib.metadata</a>
  &#8226;   <a href="#importlib.metadata._meta">importlib.metadata._meta</a>
  &#8226;   <a href="#importlib.resources.readers">importlib.resources.readers</a>
- &#8226;   <a href="#jwt.algorithms">jwt.algorithms</a>
- &#8226;   <a href="#jwt.api_jwk">jwt.api_jwk</a>
- &#8226;   <a href="#jwt.api_jws">jwt.api_jws</a>
- &#8226;   <a href="#jwt.api_jwt">jwt.api_jwt</a>
  &#8226;   <a href="#packaging._elffile">packaging._elffile</a>
  &#8226;   <a href="#packaging._manylinux">packaging._manylinux</a>
  &#8226;   <a href="#packaging._musllinux">packaging._musllinux</a>
@@ -5100,11 +5109,12 @@ imported by:
  &#8226;   <a href="#importlib.resources.abc">importlib.resources.abc</a>
  &#8226;   <a href="#inspect">inspect</a>
  &#8226;   <a href="#io">io</a>
- &#8226;   <a href="#jwt.algorithms">jwt.algorithms</a>
  &#8226;   <a href="#multiprocessing.reduction">multiprocessing.reduction</a>
  &#8226;   <a href="#numbers">numbers</a>
  &#8226;   <a href="#os">os</a>
  &#8226;   <a href="#packaging.specifiers">packaging.specifiers</a>
+ &#8226;   <a href="#qrcode.image.base">qrcode.image.base</a>
+ &#8226;   <a href="#qrcode.image.styles.moduledrawers.base">qrcode.image.styles.moduledrawers.base</a>
  &#8226;   <a href="#selectors">selectors</a>
  &#8226;   <a href="#setuptools">setuptools</a>
  &#8226;   <a href="#setuptools._distutils.cmd">setuptools._distutils.cmd</a>
@@ -6236,7 +6246,6 @@ imported by:
  &#8226;   <a href="#email.encoders">email.encoders</a>
  &#8226;   <a href="#encodings.base64_codec">encodings.base64_codec</a>
  &#8226;   <a href="#http.server">http.server</a>
- &#8226;   <a href="#jwt.utils">jwt.utils</a>
  &#8226;   <a href="#paho.mqtt.client">paho.mqtt.client</a>
  &#8226;   <a href="#requests.auth">requests.auth</a>
  &#8226;   <a href="#secrets">secrets</a>
@@ -6276,8 +6285,6 @@ imported by:
  &#8226;   <a href="#encodings.hex_codec">encodings.hex_codec</a>
  &#8226;   <a href="#encodings.uu_codec">encodings.uu_codec</a>
  &#8226;   <a href="#http.server">http.server</a>
- &#8226;   <a href="#jwt.api_jws">jwt.api_jws</a>
- &#8226;   <a href="#jwt.utils">jwt.utils</a>
  &#8226;   <a href="#plistlib">plistlib</a>
  &#8226;   <a href="#quopri">quopri</a>
  &#8226;   <a href="#urllib3.filepost">urllib3.filepost</a>
@@ -6301,6 +6308,7 @@ imported by:
     <a href="#idna.core">idna.core</a>
  &#8226;   <a href="#idna.intranges">idna.intranges</a>
  &#8226;   <a href="#multiprocessing.heap">multiprocessing.heap</a>
+ &#8226;   <a href="#qrcode.main">qrcode.main</a>
  &#8226;   <a href="#random">random</a>
  &#8226;   <a href="#statistics">statistics</a>
  &#8226;   <a href="#urllib.request">urllib.request</a>
@@ -6398,7 +6406,6 @@ imported by:
  &#8226;   <a href="#_strptime">_strptime</a>
  &#8226;   <a href="#email._parseaddr">email._parseaddr</a>
  &#8226;   <a href="#http.cookiejar">http.cookiejar</a>
- &#8226;   <a href="#jwt.api_jwt">jwt.api_jwt</a>
  &#8226;   <a href="#requests.cookies">requests.cookies</a>
  &#8226;   <a href="#ssl">ssl</a>
 
@@ -7962,7 +7969,6 @@ imported by:
  &#8226;   <a href="#cryptography.hazmat.primitives.asymmetric.x448">cryptography.hazmat.primitives.asymmetric.x448</a>
  &#8226;   <a href="#cryptography.hazmat.primitives.ciphers.modes">cryptography.hazmat.primitives.ciphers.modes</a>
  &#8226;   <a href="#cryptography.hazmat.primitives.serialization.ssh">cryptography.hazmat.primitives.serialization.ssh</a>
- &#8226;   <a href="#jwt.algorithms">jwt.algorithms</a>
 
   </div>
 
@@ -8025,7 +8031,6 @@ imports:
 imported by:
     <a href="#cryptography">cryptography</a>
  &#8226;   <a href="#cryptography.hazmat.backends.openssl">cryptography.hazmat.backends.openssl</a>
- &#8226;   <a href="#jwt.algorithms">jwt.algorithms</a>
 
   </div>
 
@@ -8298,7 +8303,6 @@ imported by:
  &#8226;   <a href="#cryptography.hazmat.primitives.serialization.ssh">cryptography.hazmat.primitives.serialization.ssh</a>
  &#8226;   <a href="#cryptography.x509.base">cryptography.x509.base</a>
  &#8226;   <a href="#cryptography.x509.extensions">cryptography.x509.extensions</a>
- &#8226;   <a href="#jwt.algorithms">jwt.algorithms</a>
 
   </div>
 
@@ -8411,7 +8415,6 @@ imported by:
  &#8226;   <a href="#cryptography.hazmat.primitives.asymmetric.x448">cryptography.hazmat.primitives.asymmetric.x448</a>
  &#8226;   <a href="#cryptography.hazmat.primitives.serialization.ssh">cryptography.hazmat.primitives.serialization.ssh</a>
  &#8226;   <a href="#cryptography.x509.base">cryptography.x509.base</a>
- &#8226;   <a href="#jwt.algorithms">jwt.algorithms</a>
 
   </div>
 
@@ -8496,8 +8499,6 @@ imported by:
  &#8226;   <a href="#cryptography.hazmat.primitives.serialization.ssh">cryptography.hazmat.primitives.serialization.ssh</a>
  &#8226;   <a href="#cryptography.x509.base">cryptography.x509.base</a>
  &#8226;   <a href="#cryptography.x509.extensions">cryptography.x509.extensions</a>
- &#8226;   <a href="#jwt.algorithms">jwt.algorithms</a>
- &#8226;   <a href="#jwt.utils">jwt.utils</a>
 
   </div>
 
@@ -8525,7 +8526,6 @@ imported by:
  &#8226;   <a href="#cryptography.hazmat.primitives.asymmetric.types">cryptography.hazmat.primitives.asymmetric.types</a>
  &#8226;   <a href="#cryptography.hazmat.primitives.serialization.ssh">cryptography.hazmat.primitives.serialization.ssh</a>
  &#8226;   <a href="#cryptography.x509.base">cryptography.x509.base</a>
- &#8226;   <a href="#jwt.algorithms">jwt.algorithms</a>
 
   </div>
 
@@ -8552,7 +8552,6 @@ imported by:
     <a href="#cryptography.hazmat.primitives.asymmetric">cryptography.hazmat.primitives.asymmetric</a>
  &#8226;   <a href="#cryptography.hazmat.primitives.asymmetric.types">cryptography.hazmat.primitives.asymmetric.types</a>
  &#8226;   <a href="#cryptography.x509.base">cryptography.x509.base</a>
- &#8226;   <a href="#jwt.algorithms">jwt.algorithms</a>
 
   </div>
 
@@ -8577,7 +8576,6 @@ imported by:
     <a href="#cryptography.hazmat.backends.openssl.backend">cryptography.hazmat.backends.openssl.backend</a>
  &#8226;   <a href="#cryptography.hazmat.primitives.serialization.ssh">cryptography.hazmat.primitives.serialization.ssh</a>
  &#8226;   <a href="#cryptography.x509.base">cryptography.x509.base</a>
- &#8226;   <a href="#jwt.algorithms">jwt.algorithms</a>
 
   </div>
 
@@ -8610,7 +8608,6 @@ imported by:
  &#8226;   <a href="#cryptography.hazmat.primitives.serialization.ssh">cryptography.hazmat.primitives.serialization.ssh</a>
  &#8226;   <a href="#cryptography.x509.base">cryptography.x509.base</a>
  &#8226;   <a href="#cryptography.x509.extensions">cryptography.x509.extensions</a>
- &#8226;   <a href="#jwt.algorithms">jwt.algorithms</a>
 
   </div>
 
@@ -8665,7 +8662,6 @@ imported by:
  &#8226;   <a href="#cryptography.hazmat.primitives.asymmetric.ec">cryptography.hazmat.primitives.asymmetric.ec</a>
  &#8226;   <a href="#cryptography.hazmat.primitives.asymmetric.rsa">cryptography.hazmat.primitives.asymmetric.rsa</a>
  &#8226;   <a href="#cryptography.hazmat.primitives.serialization.ssh">cryptography.hazmat.primitives.serialization.ssh</a>
- &#8226;   <a href="#jwt.utils">jwt.utils</a>
 
   </div>
 
@@ -8865,7 +8861,6 @@ imported by:
  &#8226;   <a href="#cryptography.hazmat.primitives.asymmetric.utils">cryptography.hazmat.primitives.asymmetric.utils</a>
  &#8226;   <a href="#cryptography.hazmat.primitives.serialization.ssh">cryptography.hazmat.primitives.serialization.ssh</a>
  &#8226;   <a href="#cryptography.x509.base">cryptography.x509.base</a>
- &#8226;   <a href="#jwt.algorithms">jwt.algorithms</a>
 
   </div>
 
@@ -8889,7 +8884,6 @@ imported by:
  &#8226;   <a href="#cryptography.hazmat.primitives.serialization.base">cryptography.hazmat.primitives.serialization.base</a>
  &#8226;   <a href="#cryptography.hazmat.primitives.serialization.ssh">cryptography.hazmat.primitives.serialization.ssh</a>
  &#8226;   <a href="#cryptography.x509.extensions">cryptography.x509.extensions</a>
- &#8226;   <a href="#jwt.algorithms">jwt.algorithms</a>
 
   </div>
 
@@ -9555,7 +9549,6 @@ imported by:
  &#8226;   <a href="#gui2.py">gui2.py</a>
  &#8226;   <a href="#http.cookiejar">http.cookiejar</a>
  &#8226;   <a href="#http.server">http.server</a>
- &#8226;   <a href="#jwt.api_jwt">jwt.api_jwt</a>
  &#8226;   <a href="#mqtt_utils">mqtt_utils</a>
  &#8226;   <a href="#plistlib">plistlib</a>
  &#8226;   <a href="#requests.models">requests.models</a>
@@ -12961,7 +12954,6 @@ imported by:
  &#8226;   <a href="#importlib.resources._common">importlib.resources._common</a>
  &#8226;   <a href="#inspect">inspect</a>
  &#8226;   <a href="#ipaddress">ipaddress</a>
- &#8226;   <a href="#jwt.jwks_client">jwt.jwks_client</a>
  &#8226;   <a href="#locale">locale</a>
  &#8226;   <a href="#multiprocessing.reduction">multiprocessing.reduction</a>
  &#8226;   <a href="#multiprocessing.shared_memory">multiprocessing.shared_memory</a>
@@ -13259,7 +13251,6 @@ imports:
 imported by:
     <a href="#cryptography.x509.extensions">cryptography.x509.extensions</a>
  &#8226;   <a href="#hmac">hmac</a>
- &#8226;   <a href="#jwt.algorithms">jwt.algorithms</a>
  &#8226;   <a href="#paho.mqtt.client">paho.mqtt.client</a>
  &#8226;   <a href="#random">random</a>
  &#8226;   <a href="#requests.auth">requests.auth</a>
@@ -13308,7 +13299,6 @@ imports:
   <div class="import">
 imported by:
     <a href="#cryptography.hazmat.primitives.constant_time">cryptography.hazmat.primitives.constant_time</a>
- &#8226;   <a href="#jwt.algorithms">jwt.algorithms</a>
  &#8226;   <a href="#multiprocessing.connection">multiprocessing.connection</a>
  &#8226;   <a href="#secrets">secrets</a>
  &#8226;   <a href="#urllib3.util.ssl_">urllib3.util.ssl_</a>
@@ -14190,6 +14180,35 @@ imported by:
 </div>
 
 <div class="node">
+  <a name="impressao_termica"></a>
+  <a target="code" href="///C:/Users/xerox8/Downloads/bom-custo-monitor/impressao_termica.py" type="text/plain"><tt>impressao_termica</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#PIL">PIL</a>
+ &#8226;   <a href="#PIL.Image">PIL.Image</a>
+ &#8226;   <a href="#io">io</a>
+ &#8226;   <a href="#logging">logging</a>
+ &#8226;   <a href="#qrcode">qrcode</a>
+ &#8226;   <a href="#subprocess">subprocess</a>
+ &#8226;   <a href="#sys">sys</a>
+ &#8226;   <a href="#tempfile">tempfile</a>
+ &#8226;   <a href="#tkinter">tkinter</a>
+ &#8226;   <a href="#tkinter.messagebox">tkinter.messagebox</a>
+ &#8226;   <a href="#win32con">win32con</a>
+ &#8226;   <a href="#win32gui">win32gui</a>
+ &#8226;   <a href="#win32print">win32print</a>
+ &#8226;   <a href="#win32ui">win32ui</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#gui2.py">gui2.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
   <a name="inspect"></a>
   <a target="code" href="///C:/Program%20Files/WindowsApps/PythonSoftwareFoundation.Python.3.13_3.13.752.0_x64__qbz5n2kfra8p0/Lib/inspect.py" type="text/plain"><tt>inspect</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
@@ -14311,6 +14330,7 @@ imported by:
  &#8226;   <a href="#http.server">http.server</a>
  &#8226;   <a href="#importlib.resources._adapters">importlib.resources._adapters</a>
  &#8226;   <a href="#importlib.resources.abc">importlib.resources.abc</a>
+ &#8226;   <a href="#impressao_termica">impressao_termica</a>
  &#8226;   <a href="#logging">logging</a>
  &#8226;   <a href="#lzma">lzma</a>
  &#8226;   <a href="#multiprocessing.connection">multiprocessing.connection</a>
@@ -14432,6 +14452,7 @@ imported by:
  &#8226;   <a href="#platform">platform</a>
  &#8226;   <a href="#plistlib">plistlib</a>
  &#8226;   <a href="#pystray._base">pystray._base</a>
+ &#8226;   <a href="#qrcode.image.pure">qrcode.image.pure</a>
  &#8226;   <a href="#random">random</a>
  &#8226;   <a href="#reprlib">reprlib</a>
  &#8226;   <a href="#setuptools._distutils.command.install">setuptools._distutils.command.install</a>
@@ -14601,11 +14622,6 @@ imported by:
  &#8226;   <a href="#json.decoder">json.decoder</a>
  &#8226;   <a href="#json.encoder">json.encoder</a>
  &#8226;   <a href="#json.scanner">json.scanner</a>
- &#8226;   <a href="#jwt.algorithms">jwt.algorithms</a>
- &#8226;   <a href="#jwt.api_jwk">jwt.api_jwk</a>
- &#8226;   <a href="#jwt.api_jws">jwt.api_jws</a>
- &#8226;   <a href="#jwt.api_jwt">jwt.api_jwt</a>
- &#8226;   <a href="#jwt.jwks_client">jwt.jwks_client</a>
  &#8226;   <a href="#mqtt_utils">mqtt_utils</a>
  &#8226;   <a href="#psycopg2._json">psycopg2._json</a>
  &#8226;   <a href="#requests.compat">requests.compat</a>
@@ -14669,284 +14685,6 @@ imports:
 imported by:
     <a href="#json">json</a>
  &#8226;   <a href="#json.decoder">json.decoder</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="jwt"></a>
-  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/jwt/__init__.py" type="text/plain"><tt>jwt</tt></a>
-<span class="moduletype">Package</span>  <div class="import">
-imports:
-    <a href="#jwt">jwt</a>
- &#8226;   <a href="#jwt.api_jwk">jwt.api_jwk</a>
- &#8226;   <a href="#jwt.api_jws">jwt.api_jws</a>
- &#8226;   <a href="#jwt.api_jwt">jwt.api_jwt</a>
- &#8226;   <a href="#jwt.exceptions">jwt.exceptions</a>
- &#8226;   <a href="#jwt.jwks_client">jwt.jwks_client</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#gui2.py">gui2.py</a>
- &#8226;   <a href="#jwt">jwt</a>
- &#8226;   <a href="#jwt.algorithms">jwt.algorithms</a>
- &#8226;   <a href="#jwt.api_jwk">jwt.api_jwk</a>
- &#8226;   <a href="#jwt.api_jws">jwt.api_jws</a>
- &#8226;   <a href="#jwt.api_jwt">jwt.api_jwt</a>
- &#8226;   <a href="#jwt.exceptions">jwt.exceptions</a>
- &#8226;   <a href="#jwt.jwk_set_cache">jwt.jwk_set_cache</a>
- &#8226;   <a href="#jwt.jwks_client">jwt.jwks_client</a>
- &#8226;   <a href="#jwt.types">jwt.types</a>
- &#8226;   <a href="#jwt.utils">jwt.utils</a>
- &#8226;   <a href="#jwt.warnings">jwt.warnings</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="jwt.algorithms"></a>
-  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/jwt/algorithms.py" type="text/plain"><tt>jwt.algorithms</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#__future__">__future__</a>
- &#8226;   <a href="#abc">abc</a>
- &#8226;   <a href="#cryptography.exceptions">cryptography.exceptions</a>
- &#8226;   <a href="#cryptography.hazmat.backends">cryptography.hazmat.backends</a>
- &#8226;   <a href="#cryptography.hazmat.primitives">cryptography.hazmat.primitives</a>
- &#8226;   <a href="#cryptography.hazmat.primitives.asymmetric">cryptography.hazmat.primitives.asymmetric</a>
- &#8226;   <a href="#cryptography.hazmat.primitives.asymmetric.ec">cryptography.hazmat.primitives.asymmetric.ec</a>
- &#8226;   <a href="#cryptography.hazmat.primitives.asymmetric.ed25519">cryptography.hazmat.primitives.asymmetric.ed25519</a>
- &#8226;   <a href="#cryptography.hazmat.primitives.asymmetric.ed448">cryptography.hazmat.primitives.asymmetric.ed448</a>
- &#8226;   <a href="#cryptography.hazmat.primitives.asymmetric.padding">cryptography.hazmat.primitives.asymmetric.padding</a>
- &#8226;   <a href="#cryptography.hazmat.primitives.asymmetric.rsa">cryptography.hazmat.primitives.asymmetric.rsa</a>
- &#8226;   <a href="#cryptography.hazmat.primitives.hashes">cryptography.hazmat.primitives.hashes</a>
- &#8226;   <a href="#cryptography.hazmat.primitives.serialization">cryptography.hazmat.primitives.serialization</a>
- &#8226;   <a href="#hashlib">hashlib</a>
- &#8226;   <a href="#hmac">hmac</a>
- &#8226;   <a href="#json">json</a>
- &#8226;   <a href="#jwt">jwt</a>
- &#8226;   <a href="#jwt.exceptions">jwt.exceptions</a>
- &#8226;   <a href="#jwt.types">jwt.types</a>
- &#8226;   <a href="#jwt.utils">jwt.utils</a>
- &#8226;   <a href="#typing">typing</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#jwt.api_jwk">jwt.api_jwk</a>
- &#8226;   <a href="#jwt.api_jws">jwt.api_jws</a>
- &#8226;   <a href="#jwt.api_jwt">jwt.api_jwt</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="jwt.api_jwk"></a>
-  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/jwt/api_jwk.py" type="text/plain"><tt>jwt.api_jwk</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#__future__">__future__</a>
- &#8226;   <a href="#json">json</a>
- &#8226;   <a href="#jwt">jwt</a>
- &#8226;   <a href="#jwt.algorithms">jwt.algorithms</a>
- &#8226;   <a href="#jwt.exceptions">jwt.exceptions</a>
- &#8226;   <a href="#jwt.types">jwt.types</a>
- &#8226;   <a href="#time">time</a>
- &#8226;   <a href="#typing">typing</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#jwt">jwt</a>
- &#8226;   <a href="#jwt.api_jws">jwt.api_jws</a>
- &#8226;   <a href="#jwt.api_jwt">jwt.api_jwt</a>
- &#8226;   <a href="#jwt.jwk_set_cache">jwt.jwk_set_cache</a>
- &#8226;   <a href="#jwt.jwks_client">jwt.jwks_client</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="jwt.api_jws"></a>
-  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/jwt/api_jws.py" type="text/plain"><tt>jwt.api_jws</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#'collections.abc'">'collections.abc'</a>
- &#8226;   <a href="#__future__">__future__</a>
- &#8226;   <a href="#binascii">binascii</a>
- &#8226;   <a href="#json">json</a>
- &#8226;   <a href="#jwt">jwt</a>
- &#8226;   <a href="#jwt.algorithms">jwt.algorithms</a>
- &#8226;   <a href="#jwt.api_jwk">jwt.api_jwk</a>
- &#8226;   <a href="#jwt.exceptions">jwt.exceptions</a>
- &#8226;   <a href="#jwt.utils">jwt.utils</a>
- &#8226;   <a href="#jwt.warnings">jwt.warnings</a>
- &#8226;   <a href="#typing">typing</a>
- &#8226;   <a href="#warnings">warnings</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#jwt">jwt</a>
- &#8226;   <a href="#jwt.api_jwt">jwt.api_jwt</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="jwt.api_jwt"></a>
-  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/jwt/api_jwt.py" type="text/plain"><tt>jwt.api_jwt</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#'collections.abc'">'collections.abc'</a>
- &#8226;   <a href="#__future__">__future__</a>
- &#8226;   <a href="#calendar">calendar</a>
- &#8226;   <a href="#datetime">datetime</a>
- &#8226;   <a href="#json">json</a>
- &#8226;   <a href="#jwt">jwt</a>
- &#8226;   <a href="#jwt.algorithms">jwt.algorithms</a>
- &#8226;   <a href="#jwt.api_jwk">jwt.api_jwk</a>
- &#8226;   <a href="#jwt.api_jws">jwt.api_jws</a>
- &#8226;   <a href="#jwt.exceptions">jwt.exceptions</a>
- &#8226;   <a href="#jwt.warnings">jwt.warnings</a>
- &#8226;   <a href="#typing">typing</a>
- &#8226;   <a href="#warnings">warnings</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#jwt">jwt</a>
- &#8226;   <a href="#jwt.jwks_client">jwt.jwks_client</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="jwt.exceptions"></a>
-  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/jwt/exceptions.py" type="text/plain"><tt>jwt.exceptions</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#jwt">jwt</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#jwt">jwt</a>
- &#8226;   <a href="#jwt.algorithms">jwt.algorithms</a>
- &#8226;   <a href="#jwt.api_jwk">jwt.api_jwk</a>
- &#8226;   <a href="#jwt.api_jws">jwt.api_jws</a>
- &#8226;   <a href="#jwt.api_jwt">jwt.api_jwt</a>
- &#8226;   <a href="#jwt.jwks_client">jwt.jwks_client</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="jwt.jwk_set_cache"></a>
-  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/jwt/jwk_set_cache.py" type="text/plain"><tt>jwt.jwk_set_cache</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#jwt">jwt</a>
- &#8226;   <a href="#jwt.api_jwk">jwt.api_jwk</a>
- &#8226;   <a href="#time">time</a>
- &#8226;   <a href="#typing">typing</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#jwt.jwks_client">jwt.jwks_client</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="jwt.jwks_client"></a>
-  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/jwt/jwks_client.py" type="text/plain"><tt>jwt.jwks_client</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#functools">functools</a>
- &#8226;   <a href="#json">json</a>
- &#8226;   <a href="#jwt">jwt</a>
- &#8226;   <a href="#jwt.api_jwk">jwt.api_jwk</a>
- &#8226;   <a href="#jwt.api_jwt">jwt.api_jwt</a>
- &#8226;   <a href="#jwt.exceptions">jwt.exceptions</a>
- &#8226;   <a href="#jwt.jwk_set_cache">jwt.jwk_set_cache</a>
- &#8226;   <a href="#ssl">ssl</a>
- &#8226;   <a href="#typing">typing</a>
- &#8226;   <a href="#urllib.error">urllib.error</a>
- &#8226;   <a href="#urllib.request">urllib.request</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#jwt">jwt</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="jwt.types"></a>
-  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/jwt/types.py" type="text/plain"><tt>jwt.types</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#jwt">jwt</a>
- &#8226;   <a href="#typing">typing</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#jwt.algorithms">jwt.algorithms</a>
- &#8226;   <a href="#jwt.api_jwk">jwt.api_jwk</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="jwt.utils"></a>
-  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/jwt/utils.py" type="text/plain"><tt>jwt.utils</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#base64">base64</a>
- &#8226;   <a href="#binascii">binascii</a>
- &#8226;   <a href="#cryptography.hazmat.primitives.asymmetric.ec">cryptography.hazmat.primitives.asymmetric.ec</a>
- &#8226;   <a href="#cryptography.hazmat.primitives.asymmetric.utils">cryptography.hazmat.primitives.asymmetric.utils</a>
- &#8226;   <a href="#jwt">jwt</a>
- &#8226;   <a href="#re">re</a>
- &#8226;   <a href="#typing">typing</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#jwt.algorithms">jwt.algorithms</a>
- &#8226;   <a href="#jwt.api_jws">jwt.api_jws</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="jwt.warnings"></a>
-  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/jwt/warnings.py" type="text/plain"><tt>jwt.warnings</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#jwt">jwt</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#jwt.api_jws">jwt.api_jws</a>
- &#8226;   <a href="#jwt.api_jwt">jwt.api_jwt</a>
 
   </div>
 
@@ -15060,6 +14798,7 @@ imported by:
  &#8226;   <a href="#concurrent.futures._base">concurrent.futures._base</a>
  &#8226;   <a href="#hashlib">hashlib</a>
  &#8226;   <a href="#http.cookiejar">http.cookiejar</a>
+ &#8226;   <a href="#impressao_termica">impressao_termica</a>
  &#8226;   <a href="#multiprocessing.util">multiprocessing.util</a>
  &#8226;   <a href="#packaging.tags">packaging.tags</a>
  &#8226;   <a href="#paho.mqtt.client">paho.mqtt.client</a>
@@ -15148,6 +14887,8 @@ imported by:
  &#8226;   <a href="#asyncio.windows_events">asyncio.windows_events</a>
  &#8226;   <a href="#cryptography.hazmat.primitives.asymmetric.rsa">cryptography.hazmat.primitives.asymmetric.rsa</a>
  &#8226;   <a href="#fractions">fractions</a>
+ &#8226;   <a href="#qrcode.image.styles.colormasks">qrcode.image.styles.colormasks</a>
+ &#8226;   <a href="#qrcode.util">qrcode.util</a>
  &#8226;   <a href="#random">random</a>
  &#8226;   <a href="#selectors">selectors</a>
  &#8226;   <a href="#setuptools._vendor.more_itertools.more">setuptools._vendor.more_itertools.more</a>
@@ -17555,6 +17296,17 @@ imported by:
 </div>
 
 <div class="node">
+  <a name="png"></a>
+  <a target="code" href="" type="text/plain"><tt>png</tt></a>
+<span class="moduletype">MissingModule</span>  <div class="import">
+imported by:
+    <a href="#qrcode.compat.png">qrcode.compat.png</a>
+
+  </div>
+
+</div>
+
+<div class="node">
   <a name="posix"></a>
   <a target="code" href="" type="text/plain"><tt>posix</tt></a>
 <span class="moduletype">MissingModule</span>  <div class="import">
@@ -18280,6 +18032,396 @@ imported by:
 </div>
 
 <div class="node">
+  <a name="qrcode"></a>
+  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/qrcode/__init__.py" type="text/plain"><tt>qrcode</tt></a>
+<span class="moduletype">Package</span>  <div class="import">
+imports:
+    <a href="#qrcode">qrcode</a>
+ &#8226;   <a href="#qrcode.LUT">qrcode.LUT</a>
+ &#8226;   <a href="#qrcode.base">qrcode.base</a>
+ &#8226;   <a href="#qrcode.constants">qrcode.constants</a>
+ &#8226;   <a href="#qrcode.exceptions">qrcode.exceptions</a>
+ &#8226;   <a href="#qrcode.image">qrcode.image</a>
+ &#8226;   <a href="#qrcode.main">qrcode.main</a>
+ &#8226;   <a href="#qrcode.util">qrcode.util</a>
+ &#8226;   <a href="#sys">sys</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#impressao_termica">impressao_termica</a>
+ &#8226;   <a href="#qrcode">qrcode</a>
+ &#8226;   <a href="#qrcode.LUT">qrcode.LUT</a>
+ &#8226;   <a href="#qrcode.base">qrcode.base</a>
+ &#8226;   <a href="#qrcode.compat">qrcode.compat</a>
+ &#8226;   <a href="#qrcode.constants">qrcode.constants</a>
+ &#8226;   <a href="#qrcode.exceptions">qrcode.exceptions</a>
+ &#8226;   <a href="#qrcode.image">qrcode.image</a>
+ &#8226;   <a href="#qrcode.main">qrcode.main</a>
+ &#8226;   <a href="#qrcode.util">qrcode.util</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="qrcode.LUT"></a>
+  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/qrcode/LUT.py" type="text/plain"><tt>qrcode.LUT</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#qrcode">qrcode</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#qrcode">qrcode</a>
+ &#8226;   <a href="#qrcode.util">qrcode.util</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="qrcode.base"></a>
+  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/qrcode/base.py" type="text/plain"><tt>qrcode.base</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#qrcode">qrcode</a>
+ &#8226;   <a href="#qrcode.constants">qrcode.constants</a>
+ &#8226;   <a href="#typing">typing</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#qrcode">qrcode</a>
+ &#8226;   <a href="#qrcode.util">qrcode.util</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="qrcode.compat"></a>
+  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/qrcode/compat/__init__.py" type="text/plain"><tt>qrcode.compat</tt></a>
+<span class="moduletype">Package</span>  <div class="import">
+imports:
+    <a href="#qrcode">qrcode</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#qrcode.compat.png">qrcode.compat.png</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="qrcode.compat.png"></a>
+  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/qrcode/compat/png.py" type="text/plain"><tt>qrcode.compat.png</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#png">png</a>
+ &#8226;   <a href="#qrcode.compat">qrcode.compat</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#qrcode.image.pure">qrcode.image.pure</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="qrcode.constants"></a>
+  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/qrcode/constants.py" type="text/plain"><tt>qrcode.constants</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#qrcode">qrcode</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#qrcode">qrcode</a>
+ &#8226;   <a href="#qrcode.base">qrcode.base</a>
+ &#8226;   <a href="#qrcode.main">qrcode.main</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="qrcode.exceptions"></a>
+  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/qrcode/exceptions.py" type="text/plain"><tt>qrcode.exceptions</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#qrcode">qrcode</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#qrcode">qrcode</a>
+ &#8226;   <a href="#qrcode.main">qrcode.main</a>
+ &#8226;   <a href="#qrcode.util">qrcode.util</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="qrcode.image"></a>
+  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/qrcode/image/__init__.py" type="text/plain"><tt>qrcode.image</tt></a>
+<span class="moduletype">Package</span>  <div class="import">
+imports:
+    <a href="#qrcode">qrcode</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#qrcode">qrcode</a>
+ &#8226;   <a href="#qrcode.image.base">qrcode.image.base</a>
+ &#8226;   <a href="#qrcode.image.pil">qrcode.image.pil</a>
+ &#8226;   <a href="#qrcode.image.pure">qrcode.image.pure</a>
+ &#8226;   <a href="#qrcode.image.styledpil">qrcode.image.styledpil</a>
+ &#8226;   <a href="#qrcode.image.styles">qrcode.image.styles</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="qrcode.image.base"></a>
+  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/qrcode/image/base.py" type="text/plain"><tt>qrcode.image.base</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#abc">abc</a>
+ &#8226;   <a href="#qrcode.image">qrcode.image</a>
+ &#8226;   <a href="#qrcode.image.styles.moduledrawers.base">qrcode.image.styles.moduledrawers.base</a>
+ &#8226;   <a href="#qrcode.main">qrcode.main</a>
+ &#8226;   <a href="#typing">typing</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#qrcode.image.pil">qrcode.image.pil</a>
+ &#8226;   <a href="#qrcode.image.pure">qrcode.image.pure</a>
+ &#8226;   <a href="#qrcode.image.styledpil">qrcode.image.styledpil</a>
+ &#8226;   <a href="#qrcode.image.styles.moduledrawers.base">qrcode.image.styles.moduledrawers.base</a>
+ &#8226;   <a href="#qrcode.main">qrcode.main</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="qrcode.image.pil"></a>
+  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/qrcode/image/pil.py" type="text/plain"><tt>qrcode.image.pil</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#PIL">PIL</a>
+ &#8226;   <a href="#PIL.Image">PIL.Image</a>
+ &#8226;   <a href="#PIL.ImageDraw">PIL.ImageDraw</a>
+ &#8226;   <a href="#qrcode.image">qrcode.image</a>
+ &#8226;   <a href="#qrcode.image.base">qrcode.image.base</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#qrcode.main">qrcode.main</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="qrcode.image.pure"></a>
+  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/qrcode/image/pure.py" type="text/plain"><tt>qrcode.image.pure</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#itertools">itertools</a>
+ &#8226;   <a href="#qrcode.compat.png">qrcode.compat.png</a>
+ &#8226;   <a href="#qrcode.image">qrcode.image</a>
+ &#8226;   <a href="#qrcode.image.base">qrcode.image.base</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#qrcode.main">qrcode.main</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="qrcode.image.styledpil"></a>
+  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/qrcode/image/styledpil.py" type="text/plain"><tt>qrcode.image.styledpil</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#PIL">PIL</a>
+ &#8226;   <a href="#PIL.Image">PIL.Image</a>
+ &#8226;   <a href="#qrcode.image">qrcode.image</a>
+ &#8226;   <a href="#qrcode.image.base">qrcode.image.base</a>
+ &#8226;   <a href="#qrcode.image.styles.colormasks">qrcode.image.styles.colormasks</a>
+ &#8226;   <a href="#qrcode.image.styles.moduledrawers">qrcode.image.styles.moduledrawers</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#qrcode.image.styles.moduledrawers.pil">qrcode.image.styles.moduledrawers.pil</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="qrcode.image.styles"></a>
+  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/qrcode/image/styles/__init__.py" type="text/plain"><tt>qrcode.image.styles</tt></a>
+<span class="moduletype">Package</span>  <div class="import">
+imports:
+    <a href="#qrcode.image">qrcode.image</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#qrcode.image.styles.colormasks">qrcode.image.styles.colormasks</a>
+ &#8226;   <a href="#qrcode.image.styles.moduledrawers">qrcode.image.styles.moduledrawers</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="qrcode.image.styles.colormasks"></a>
+  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/qrcode/image/styles/colormasks.py" type="text/plain"><tt>qrcode.image.styles.colormasks</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#PIL">PIL</a>
+ &#8226;   <a href="#PIL.Image">PIL.Image</a>
+ &#8226;   <a href="#math">math</a>
+ &#8226;   <a href="#qrcode.image.styles">qrcode.image.styles</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#qrcode.image.styledpil">qrcode.image.styledpil</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="qrcode.image.styles.moduledrawers"></a>
+  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/qrcode/image/styles/moduledrawers/__init__.py" type="text/plain"><tt>qrcode.image.styles.moduledrawers</tt></a>
+<span class="moduletype">Package</span>  <div class="import">
+imports:
+    <a href="#qrcode.image.styles">qrcode.image.styles</a>
+ &#8226;   <a href="#qrcode.image.styles.moduledrawers.pil">qrcode.image.styles.moduledrawers.pil</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#qrcode.image.styledpil">qrcode.image.styledpil</a>
+ &#8226;   <a href="#qrcode.image.styles.moduledrawers.base">qrcode.image.styles.moduledrawers.base</a>
+ &#8226;   <a href="#qrcode.image.styles.moduledrawers.pil">qrcode.image.styles.moduledrawers.pil</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="qrcode.image.styles.moduledrawers.base"></a>
+  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/qrcode/image/styles/moduledrawers/base.py" type="text/plain"><tt>qrcode.image.styles.moduledrawers.base</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#abc">abc</a>
+ &#8226;   <a href="#qrcode.image.base">qrcode.image.base</a>
+ &#8226;   <a href="#qrcode.image.styles.moduledrawers">qrcode.image.styles.moduledrawers</a>
+ &#8226;   <a href="#typing">typing</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#qrcode.image.base">qrcode.image.base</a>
+ &#8226;   <a href="#qrcode.image.styles.moduledrawers.pil">qrcode.image.styles.moduledrawers.pil</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="qrcode.image.styles.moduledrawers.pil"></a>
+  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/qrcode/image/styles/moduledrawers/pil.py" type="text/plain"><tt>qrcode.image.styles.moduledrawers.pil</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#PIL">PIL</a>
+ &#8226;   <a href="#PIL.Image">PIL.Image</a>
+ &#8226;   <a href="#PIL.ImageDraw">PIL.ImageDraw</a>
+ &#8226;   <a href="#qrcode.image.styledpil">qrcode.image.styledpil</a>
+ &#8226;   <a href="#qrcode.image.styles.moduledrawers">qrcode.image.styles.moduledrawers</a>
+ &#8226;   <a href="#qrcode.image.styles.moduledrawers.base">qrcode.image.styles.moduledrawers.base</a>
+ &#8226;   <a href="#qrcode.main">qrcode.main</a>
+ &#8226;   <a href="#typing">typing</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#qrcode.image.styles.moduledrawers">qrcode.image.styles.moduledrawers</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="qrcode.main"></a>
+  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/qrcode/main.py" type="text/plain"><tt>qrcode.main</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#bisect">bisect</a>
+ &#8226;   <a href="#qrcode">qrcode</a>
+ &#8226;   <a href="#qrcode.constants">qrcode.constants</a>
+ &#8226;   <a href="#qrcode.exceptions">qrcode.exceptions</a>
+ &#8226;   <a href="#qrcode.image.base">qrcode.image.base</a>
+ &#8226;   <a href="#qrcode.image.pil">qrcode.image.pil</a>
+ &#8226;   <a href="#qrcode.image.pure">qrcode.image.pure</a>
+ &#8226;   <a href="#qrcode.util">qrcode.util</a>
+ &#8226;   <a href="#sys">sys</a>
+ &#8226;   <a href="#typing">typing</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#qrcode">qrcode</a>
+ &#8226;   <a href="#qrcode.image.base">qrcode.image.base</a>
+ &#8226;   <a href="#qrcode.image.styles.moduledrawers.pil">qrcode.image.styles.moduledrawers.pil</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="qrcode.util"></a>
+  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/qrcode/util.py" type="text/plain"><tt>qrcode.util</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#math">math</a>
+ &#8226;   <a href="#qrcode">qrcode</a>
+ &#8226;   <a href="#qrcode.LUT">qrcode.LUT</a>
+ &#8226;   <a href="#qrcode.base">qrcode.base</a>
+ &#8226;   <a href="#qrcode.exceptions">qrcode.exceptions</a>
+ &#8226;   <a href="#re">re</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#qrcode">qrcode</a>
+ &#8226;   <a href="#qrcode.main">qrcode.main</a>
+
+  </div>
+
+</div>
+
+<div class="node">
   <a name="queue"></a>
   <a target="code" href="///C:/Program%20Files/WindowsApps/PythonSoftwareFoundation.Python.3.13_3.13.752.0_x64__qbz5n2kfra8p0/Lib/queue.py" type="text/plain"><tt>queue</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
@@ -18448,7 +18590,6 @@ imported by:
  &#8226;   <a href="#json.decoder">json.decoder</a>
  &#8226;   <a href="#json.encoder">json.encoder</a>
  &#8226;   <a href="#json.scanner">json.scanner</a>
- &#8226;   <a href="#jwt.utils">jwt.utils</a>
  &#8226;   <a href="#locale">locale</a>
  &#8226;   <a href="#logging">logging</a>
  &#8226;   <a href="#packaging._manylinux">packaging._manylinux</a>
@@ -18470,6 +18611,7 @@ imported by:
  &#8226;   <a href="#psycopg2.extensions">psycopg2.extensions</a>
  &#8226;   <a href="#psycopg2.extras">psycopg2.extras</a>
  &#8226;   <a href="#pydoc">pydoc</a>
+ &#8226;   <a href="#qrcode.util">qrcode.util</a>
  &#8226;   <a href="#re">re</a>
  &#8226;   <a href="#re._casefix">re._casefix</a>
  &#8226;   <a href="#re._compiler">re._compiler</a>
@@ -24324,7 +24466,6 @@ imported by:
  &#8226;   <a href="#ftplib">ftplib</a>
  &#8226;   <a href="#gui2.py">gui2.py</a>
  &#8226;   <a href="#http.client">http.client</a>
- &#8226;   <a href="#jwt.jwks_client">jwt.jwks_client</a>
  &#8226;   <a href="#paho.mqtt.client">paho.mqtt.client</a>
  &#8226;   <a href="#requests">requests</a>
  &#8226;   <a href="#setuptools.config._validate_pyproject.formats">setuptools.config._validate_pyproject.formats</a>
@@ -24560,6 +24701,7 @@ imported by:
  &#8226;   <a href="#ctypes.util">ctypes.util</a>
  &#8226;   <a href="#gui2.py">gui2.py</a>
  &#8226;   <a href="#http.server">http.server</a>
+ &#8226;   <a href="#impressao_termica">impressao_termica</a>
  &#8226;   <a href="#multiprocessing.popen_spawn_win32">multiprocessing.popen_spawn_win32</a>
  &#8226;   <a href="#multiprocessing.util">multiprocessing.util</a>
  &#8226;   <a href="#os">os</a>
@@ -24676,6 +24818,7 @@ imported by:
  &#8226;   <a href="#importlib._bootstrap_external">importlib._bootstrap_external</a>
  &#8226;   <a href="#importlib.metadata">importlib.metadata</a>
  &#8226;   <a href="#importlib.util">importlib.util</a>
+ &#8226;   <a href="#impressao_termica">impressao_termica</a>
  &#8226;   <a href="#inspect">inspect</a>
  &#8226;   <a href="#linecache">linecache</a>
  &#8226;   <a href="#locale">locale</a>
@@ -24720,6 +24863,8 @@ imported by:
  &#8226;   <a href="#pyi_rth_pkgres.py">pyi_rth_pkgres.py</a>
  &#8226;   <a href="#pystray">pystray</a>
  &#8226;   <a href="#pystray._xorg">pystray._xorg</a>
+ &#8226;   <a href="#qrcode">qrcode</a>
+ &#8226;   <a href="#qrcode.main">qrcode.main</a>
  &#8226;   <a href="#quopri">quopri</a>
  &#8226;   <a href="#re._compiler">re._compiler</a>
  &#8226;   <a href="#requests.compat">requests.compat</a>
@@ -24948,6 +25093,7 @@ imported by:
  &#8226;   <a href="#ctypes.util">ctypes.util</a>
  &#8226;   <a href="#gui2.py">gui2.py</a>
  &#8226;   <a href="#importlib.resources._common">importlib.resources._common</a>
+ &#8226;   <a href="#impressao_termica">impressao_termica</a>
  &#8226;   <a href="#multiprocessing.connection">multiprocessing.connection</a>
  &#8226;   <a href="#multiprocessing.heap">multiprocessing.heap</a>
  &#8226;   <a href="#multiprocessing.synchronize">multiprocessing.synchronize</a>
@@ -25113,8 +25259,6 @@ imported by:
  &#8226;   <a href="#http.cookiejar">http.cookiejar</a>
  &#8226;   <a href="#http.cookies">http.cookies</a>
  &#8226;   <a href="#http.server">http.server</a>
- &#8226;   <a href="#jwt.api_jwk">jwt.api_jwk</a>
- &#8226;   <a href="#jwt.jwk_set_cache">jwt.jwk_set_cache</a>
  &#8226;   <a href="#logging">logging</a>
  &#8226;   <a href="#multiprocessing.connection">multiprocessing.connection</a>
  &#8226;   <a href="#multiprocessing.managers">multiprocessing.managers</a>
@@ -25177,6 +25321,7 @@ imports:
   <div class="import">
 imported by:
     <a href="#gui2.py">gui2.py</a>
+ &#8226;   <a href="#impressao_termica">impressao_termica</a>
  &#8226;   <a href="#tkinter.commondialog">tkinter.commondialog</a>
  &#8226;   <a href="#tkinter.constants">tkinter.constants</a>
  &#8226;   <a href="#tkinter.dialog">tkinter.dialog</a>
@@ -25274,6 +25419,7 @@ imports:
   <div class="import">
 imported by:
     <a href="#gui2.py">gui2.py</a>
+ &#8226;   <a href="#impressao_termica">impressao_termica</a>
  &#8226;   <a href="#tkinter">tkinter</a>
  &#8226;   <a href="#tkinter.simpledialog">tkinter.simpledialog</a>
  &#8226;   <a href="#ui_utils">ui_utils</a>
@@ -25776,14 +25922,6 @@ imported by:
  &#8226;   <a href="#importlib.metadata._meta">importlib.metadata._meta</a>
  &#8226;   <a href="#importlib.resources._common">importlib.resources._common</a>
  &#8226;   <a href="#importlib.resources.abc">importlib.resources.abc</a>
- &#8226;   <a href="#jwt.algorithms">jwt.algorithms</a>
- &#8226;   <a href="#jwt.api_jwk">jwt.api_jwk</a>
- &#8226;   <a href="#jwt.api_jws">jwt.api_jws</a>
- &#8226;   <a href="#jwt.api_jwt">jwt.api_jwt</a>
- &#8226;   <a href="#jwt.jwk_set_cache">jwt.jwk_set_cache</a>
- &#8226;   <a href="#jwt.jwks_client">jwt.jwks_client</a>
- &#8226;   <a href="#jwt.types">jwt.types</a>
- &#8226;   <a href="#jwt.utils">jwt.utils</a>
  &#8226;   <a href="#packaging._elffile">packaging._elffile</a>
  &#8226;   <a href="#packaging._manylinux">packaging._manylinux</a>
  &#8226;   <a href="#packaging._musllinux">packaging._musllinux</a>
@@ -25801,6 +25939,11 @@ imported by:
  &#8226;   <a href="#paho.mqtt.client">paho.mqtt.client</a>
  &#8226;   <a href="#paho.mqtt.reasoncodes">paho.mqtt.reasoncodes</a>
  &#8226;   <a href="#pkg_resources">pkg_resources</a>
+ &#8226;   <a href="#qrcode.base">qrcode.base</a>
+ &#8226;   <a href="#qrcode.image.base">qrcode.image.base</a>
+ &#8226;   <a href="#qrcode.image.styles.moduledrawers.base">qrcode.image.styles.moduledrawers.base</a>
+ &#8226;   <a href="#qrcode.image.styles.moduledrawers.pil">qrcode.image.styles.moduledrawers.pil</a>
+ &#8226;   <a href="#qrcode.main">qrcode.main</a>
  &#8226;   <a href="#setuptools">setuptools</a>
  &#8226;   <a href="#setuptools._distutils._modified">setuptools._distutils._modified</a>
  &#8226;   <a href="#setuptools._distutils.archive_util">setuptools._distutils.archive_util</a>
@@ -26332,8 +26475,7 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#jwt.jwks_client">jwt.jwks_client</a>
- &#8226;   <a href="#urllib.request">urllib.request</a>
+    <a href="#urllib.request">urllib.request</a>
 
   </div>
 
@@ -26382,6 +26524,7 @@ imports:
   <div class="import">
 imported by:
     <a href="#email.utils">email.utils</a>
+ &#8226;   <a href="#gui2.py">gui2.py</a>
  &#8226;   <a href="#http.client">http.client</a>
  &#8226;   <a href="#http.cookiejar">http.cookiejar</a>
  &#8226;   <a href="#http.server">http.server</a>
@@ -26490,7 +26633,6 @@ imports:
 imported by:
     <a href="#gui2.py">gui2.py</a>
  &#8226;   <a href="#http.cookiejar">http.cookiejar</a>
- &#8226;   <a href="#jwt.jwks_client">jwt.jwks_client</a>
  &#8226;   <a href="#paho.mqtt.client">paho.mqtt.client</a>
  &#8226;   <a href="#requests.compat">requests.compat</a>
  &#8226;   <a href="#setuptools._vendor.jaraco.context">setuptools._vendor.jaraco.context</a>
@@ -27674,8 +27816,6 @@ imported by:
  &#8226;   <a href="#importlib.resources._common">importlib.resources._common</a>
  &#8226;   <a href="#importlib.resources._functional">importlib.resources._functional</a>
  &#8226;   <a href="#importlib.resources.readers">importlib.resources.readers</a>
- &#8226;   <a href="#jwt.api_jws">jwt.api_jws</a>
- &#8226;   <a href="#jwt.api_jwt">jwt.api_jwt</a>
  &#8226;   <a href="#locale">locale</a>
  &#8226;   <a href="#logging">logging</a>
  &#8226;   <a href="#multiprocessing.forkserver">multiprocessing.forkserver</a>
@@ -27837,11 +27977,54 @@ imported by:
 </div>
 
 <div class="node">
+  <a name="win32con"></a>
+  <a target="code" href="///C:/Users/xerox8/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0/LocalCache/local-packages/Python313/site-packages/win32/lib/win32con.py" type="text/plain"><tt>win32con</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imported by:
+    <a href="#impressao_termica">impressao_termica</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="win32gui"></a>
+  <tt>win32gui</tt> <span class="moduletype"><tt>C:\Users\xerox8\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\win32\win32gui.pyd</tt></span>  <div class="import">
+imported by:
+    <a href="#impressao_termica">impressao_termica</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="win32print"></a>
+  <tt>win32print</tt> <span class="moduletype"><tt>C:\Users\xerox8\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\win32\win32print.pyd</tt></span>  <div class="import">
+imported by:
+    <a href="#gui2.py">gui2.py</a>
+ &#8226;   <a href="#impressao_termica">impressao_termica</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="win32ui"></a>
+  <tt>win32ui</tt> <span class="moduletype"><tt>C:\Users\xerox8\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\Pythonwin\win32ui.pyd</tt></span>  <div class="import">
+imported by:
+    <a href="#impressao_termica">impressao_termica</a>
+
+  </div>
+
+</div>
+
+<div class="node">
   <a name="winotify"></a>
   <a target="code" href="" type="text/plain"><tt>winotify</tt></a>
 <span class="moduletype">MissingModule</span>  <div class="import">
 imported by:
-    <a href="#mqtt_utils">mqtt_utils</a>
+    <a href="#gui2.py">gui2.py</a>
+ &#8226;   <a href="#mqtt_utils">mqtt_utils</a>
  &#8226;   <a href="#tray_utils">tray_utils</a>
 
   </div>

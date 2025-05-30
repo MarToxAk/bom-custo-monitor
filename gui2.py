@@ -363,7 +363,9 @@ def selecionar_metodo_impressao():
     tk.Label(top, text="Escolha o método de impressão:").pack(padx=10, pady=10)
     var = tk.StringVar(value=metodo_impressao_termica)
     opcoes = [
-        ("Impressão direta (win32print)", "win32print"),
+        ("Automático (ESC/POS → ESC/Bema → Raster → ASCII)", "win32print"),
+        ("Apenas ESC/POS (universal)", "escpos"),
+        ("Apenas ESC/Bema (Bematech)", "escbema"),
         ("Arquivo TXT + Notepad /p (compatível)", "arquivo_txt")
     ]
     for texto, valor in opcoes:

@@ -1,10 +1,10 @@
 [Setup]
 AppName=Bom Custo
-AppVersion=1.0.3
+AppVersion=1.0.7
 DefaultDirName={autopf}\BomCusto
 DefaultGroupName=Bom Custo
 OutputDir=dist
-OutputBaseFilename=BomCustoInstaller
+OutputBaseFilename=BomCustoInstaller1.0.7
 SetupIconFile=status.ico
 
 [Files]
