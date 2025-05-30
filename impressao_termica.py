@@ -26,10 +26,16 @@ def imprimir_pedido_termica(pedido, impressora_termica, metodo_impressao_termica
         return
     if modo_impressao == "Usuário":
         return
-    # Gera a URL do QR Code
-    url_qr = f"https://autopyweb.com.br/grafica/atualizacao.html?numero={pedido['numero']}&status={pedido['status']}"
-    # Gera o QR Code como imagem
-    qr = qrcode.QRCode(box_size=4, border=2)
+    # Gera a URL do QR Code de acordo com o status recebido
+    if pedido["status"] == 1:
+        qr_status = 3
+    elif pedido["status"] == 3:
+        qr_status = 8
+    else:
+        qr_status = pedido["status"]
+    url_qr = f"https://autopyweb.com.br/grafica/atualizacao.html?numero={pedido['numero']}&status={qr_status}"
+    # Gera o QR Code como imagem (box_size maior para aumentar o QR)
+    qr = qrcode.QRCode(box_size=8, border=2)
     qr.add_data(url_qr)
     qr.make(fit=True)
     img_qr = qr.make_image(fill_color="black", back_color="white")
@@ -38,12 +44,41 @@ def imprimir_pedido_termica(pedido, impressora_termica, metodo_impressao_termica
     img_qr.save(buffer, format="PNG")
     qr_bytes = buffer.getvalue()
     buffer.close()
+    # Gera o QR Code em ASCII para impressoras térmicas Bematech
+    try:
+        from io import StringIO
+        import sys
+        old_stdout = sys.stdout
+        sys.stdout = qr_ascii = StringIO()
+        # Gera o QRCode ASCII a partir do objeto qr (maior box_size já reflete no ASCII)
+        qr.print_ascii(tty=False, invert=True)
+        sys.stdout = old_stdout
+        qr_ascii_str = qr_ascii.getvalue()
+    except Exception as e:
+        qr_ascii_str = "[QR não disponível]"
     texto = (
         f"Pedido: {pedido['numero']}\nCliente: {pedido['nome']}\nStatus: {status_descricoes.get(status_cores[pedido['status']-1],'')}\nData: {pedido['datahora']}\n"
-        "\n\n\n\n"  # 4 linhas em branco ao final
-        "--------------------------\n"
-        f"Acompanhe: {url_qr}\n"
+        "\nLeia este QR Code para atualizar o status correspondente.\n"
+        "\n"
     )
+    # Comando ESC/POS para QR Code
+    def escpos_qrcode(data):
+        # ESC/POS QR: https://reference.epson-biz.com/modules/ref_escpos/index.php?content_id=140
+        store_len = len(data) + 3
+        pL = store_len % 256
+        pH = store_len // 256
+        cmds = b''
+        # [1] Set QR code model
+        cmds += b'\x1D\x28\x6B\x04\x00\x31\x41\x32\x00'
+        # [2] Set QR code size (14 = 14 dots/module)
+        cmds += b'\x1D\x28\x6B\x03\x00\x31\x43\x0E'
+        # [3] Set error correction level (48 = L, 49 = M, 50 = Q, 51 = H)
+        cmds += b'\x1D\x28\x6B\x03\x00\x31\x45\x31'
+        # [4] Store data
+        cmds += b'\x1D\x28\x6B' + bytes([pL, pH]) + b'\x31\x50\x30' + data.encode('utf-8')
+        # [5] Print QR code
+        cmds += b'\x1D\x28\x6B\x03\x00\x31\x51\x30'
+        return cmds
     if metodo_impressao_termica == "win32print":
         try:
             hprinter = win32print.OpenPrinter(impressora_termica)
@@ -51,20 +86,12 @@ def imprimir_pedido_termica(pedido, impressora_termica, metodo_impressao_termica
                 job = win32print.StartDocPrinter(hprinter, 1, ("Status Pedido", None, "RAW"))
                 win32print.StartPagePrinter(hprinter)
                 win32print.WritePrinter(hprinter, texto.encode("utf-8"))
-                # Tenta imprimir o QR Code (apenas impressoras compatíveis com imagem RAW)
+                # Envia comando ESC/POS para QR Code
                 try:
-                    import win32ui
-                    import win32con
-                    from PIL import ImageWin
-                    bmp = img_qr.convert('RGB')
-                    hdc = win32ui.CreateDC()
-                    hdc.CreatePrinterDC(impressora_termica)
-                    dib = ImageWin.Dib(bmp)
-                    dib.draw(hdc.GetHandleOutput(), (0, 200, 200, 400))
-                    hdc.EndDoc()
-                    hdc.DeleteDC()
-                except Exception:
-                    pass  # Se não conseguir imprimir imagem, ignora
+                    escpos_cmd = escpos_qrcode(url_qr)
+                    win32print.WritePrinter(hprinter, escpos_cmd)
+                except Exception as e:
+                    print(f"[LOG] Falha ao enviar ESC/POS QRCode: {e}")
                 win32print.EndPagePrinter(hprinter)
                 win32print.EndDocPrinter(hprinter)
             finally:

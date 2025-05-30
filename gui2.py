@@ -447,10 +447,6 @@ def parar_som(btn=None):
 def toggle_som():
     global tocar_som
     tocar_som = not tocar_som
-    if tocar_som:
-        som_menu.entryconfig(0, label="Desabilitar som de notificação")
-    else:
-        som_menu.entryconfig(0, label="Habilitar som de notificação")
     salvar_config()
 
 def escolher_som():
@@ -461,10 +457,8 @@ def escolher_som():
     )
     if arquivo:
         som_personalizado = arquivo
-        som_menu.entryconfig(2, label=f"Som: {arquivo.split('/')[-1]}")
     else:
         som_personalizado = None
-        som_menu.entryconfig(2, label="Som: padrão do sistema")
     salvar_config()
 
 # Suporte a tema claro/escuro
@@ -485,7 +479,6 @@ def alternar_tema():
         style.map("Alerta.TButton", background=[("active", "#FFFACD")], foreground=[("active", "black")])
         style.configure("Novo.TButton", background="#FFB6B6", foreground="black")
         style.map("Novo.TButton", background=[("active", "#FF7F7F")], foreground=[("active", "black")])
-        som_menu.entryconfig(1, label="Tema claro")
     else:
         window.configure(bg="#F5F5F5")
         titulo.configure(bg="#F5F5F5", fg="#222222")
@@ -498,7 +491,6 @@ def alternar_tema():
         style.map("Alerta.TButton", background=[("active", "#FFE066")], foreground=[("active", "#222222")])
         style.configure("Novo.TButton", background="#FFB6B6", foreground="#222222")
         style.map("Novo.TButton", background=[("active", "#FF7F7F")], foreground=[("active", "#222222")])
-        som_menu.entryconfig(1, label="Tema escuro")
     salvar_config()
     atualizar_lista_e_botoes()
 
@@ -551,23 +543,52 @@ def mostrar_sobre():
         .format(APP_VERSION)
     )
 
-# Menu para controle do som, tema e ajuda
-top_menu = tk.Menu(window)
-som_menu = tk.Menu(top_menu, tearoff=0)
-som_menu.add_command(label="Desabilitar som de notificação", command=toggle_som)
-som_menu.add_command(label="Tema claro", command=alternar_tema)
-som_menu.add_command(label="Som: padrão do sistema", command=escolher_som)
-som_menu.add_command(label="Selecionar impressora térmica", command=selecionar_impressora)
-som_menu.add_command(label="Selecionar modo de impressão", command=selecionar_modo)
-som_menu.add_command(label="Selecionar método de impressão térmica", command=selecionar_metodo_impressao)
-top_menu.add_cascade(label="Opções", menu=som_menu)
+# Carregar ícones para o menu (deve ser feito após OUTPUT_PATH estar definido)
+from tkinter import PhotoImage
+icon_paths = {
+    "impressora": str(OUTPUT_PATH / "assets/frame0/button_1.png"),
+    "modo": str(OUTPUT_PATH / "assets/frame0/button_2.png"),
+    "metodo": str(OUTPUT_PATH / "assets/frame0/button_3.png"),
+    "som": str(OUTPUT_PATH / "assets/frame0/button_4.png"),
+    "tema": str(OUTPUT_PATH / "assets/frame0/button_5.png"),
+    "sobre": str(OUTPUT_PATH / "assets/frame0/button_6.png"),
+    "sair": str(OUTPUT_PATH / "assets/frame0/button_7.png"),
+}
+menu_icons = {}
+for key, path in icon_paths.items():
+    try:
+        menu_icons[key] = PhotoImage(file=path)
+    except Exception:
+        menu_icons[key] = None
 
-# Adiciona menu Ajuda/Sobre
-ajuda_menu = tk.Menu(top_menu, tearoff=0)
-ajuda_menu.add_command(label="Sobre", command=mostrar_sobre)
-top_menu.add_cascade(label="Ajuda", menu=ajuda_menu)
+# Menu para controle do sistema
+menu_bar = tk.Menu(window)
 
-window.config(menu=top_menu)
+# Menu Arquivo
+arquivo_menu = tk.Menu(menu_bar, tearoff=0)
+arquivo_menu.add_command(label="🗙 Sair", command=window.quit)
+menu_bar.add_cascade(label="Arquivo", menu=arquivo_menu)
+
+# Menu Impressora
+impressora_menu = tk.Menu(menu_bar, tearoff=0)
+impressora_menu.add_command(label="🖨️ Selecionar impressora térmica", command=selecionar_impressora)
+impressora_menu.add_command(label="📝 Selecionar modo de impressão", command=selecionar_modo)
+impressora_menu.add_command(label="⚙️ Selecionar método de impressão", command=selecionar_metodo_impressao)
+menu_bar.add_cascade(label="Impressora", menu=impressora_menu)
+
+# Menu Som e Tema
+somtema_menu = tk.Menu(menu_bar, tearoff=0)
+somtema_menu.add_command(label="🔔 Habilitar/Desabilitar som de notificação", command=toggle_som)
+somtema_menu.add_command(label="🎵 Escolher som de notificação", command=escolher_som)
+somtema_menu.add_command(label="🌗 Alternar tema claro/escuro", command=alternar_tema)
+menu_bar.add_cascade(label="Som e Tema", menu=somtema_menu)
+
+# Menu Ajuda
+ajuda_menu = tk.Menu(menu_bar, tearoff=0)
+ajuda_menu.add_command(label="❓ Sobre", command=mostrar_sobre)
+menu_bar.add_cascade(label="Ajuda", menu=ajuda_menu)
+
+window.config(menu=menu_bar)
 
 # Frame principal e canvas com scroll
 frame_principal = tk.Frame(window, bg="#2C2C2C")
